@@ -1,0 +1,209 @@
+openapi: 3.0.0
+info:
+  title: DBS 2022
+  description: Definícia API zadania na predmet DBS 2022
+  version: 0.1.0
+tags:
+- name: "Zadanie 1"
+- name: "Zadanie 2"
+
+paths:
+  /v1/health:
+    get:
+      tags:
+        - "Zadanie 1"
+      summary: Vráti informácie o databázovom servery a veľkost databázy dota2.
+      description: Pre získanie verzie použite nasledujúci SQL dotaz `SELECT VERSION();` a pre výpočet veľkosti databázy použite `SELECT pg_database_size('dota2')/1024/1024 as dota2_db_size;`
+      responses:
+        '200':
+          description: Očakávaná odpoveď vo formáte [JSON](https://www.json.org/json-en.html)
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties: 
+                  pgsql:
+                    type: object
+                    example: 
+                      version: 'PostgreSQL 12.3 on amd64-portbld-freebsd12.1, compiled by FreeBSD clang version 8.0.1 (tags/RELEASE_801/final 366581) (based on LLVM 8.0.1), 64-bit'
+                      dota2_db_size: 4347
+                      
+  /v2/patches/:
+    get:
+      tags:
+        - "Zadanie 2"
+      summary: Vráti všetky hry patriace do jednotlivých patchov
+      description: Napíšte SQL dotaz, ktorý vráti nasledovné stĺpce:`patch_version`, `patch_start_date` ako int, `patch_end_date` ako int, `match_id` a `match_duration` v minútach zaokrúhlene na 2 desatinné miesta. Operujte nad tabuľkami `patches` a `matches`. Match spadá pod patch v prípade, ak jeho `start_time` je medzi `patch_start_date` a `patch_end_date` - dáta si musíte v selecte vhodne pripraviť. Výsledok naformátujte ako pole patchov, ktoré majú v sebe pole matchov s metadátami.
+      responses:
+        '200':
+          description: Očakávaná odpoveď vo formáte [JSON](https://www.json.org/json-en.html)
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties: 
+                  patches:
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/PatchDetail'
+  /v2/players/14944/game_exp/:
+    get:
+      tags:
+        - "Zadanie 2"
+      summary: Pre konkrétneho hráča identifikovaného v URL ako {player_id} vráti metadáta o ňom a jeho hrách.
+      description: Napíšte SQL dotaz, ktorý vráti nasledovné stĺpce:`id`, `player_nick` ktoré v prípade že nie je vyplnené vráti "unknown", `hero_localized_name`, `match_duration_minutes` v minútach zaokrúhlene na 2 desatinné miesta, `experiences_gained` ako suma v poliach matches_players_details.xp_hero + matches_players_details.xp_creep + matches_players_details.xp_other + matches_players_details.xp_roshan, `level_gained` ako najvyšší dosiahnutý level, `winner` bool hodnota hovoriaca o tom, či hráč vyhral (Strany pre jednotlivých hráčov sú rozlíšené na základe pozície hráča v hre, Radiant pozícia 0 až 4, Dire  pozícia 128 až 132) a `match_id`. Operujte nad tabuľkami `players`, `matches_players_details`, `heroes`, `matches`.
+      responses:
+        '200':
+          description: Očakávaná odpoveď vo formáte [JSON](https://www.json.org/json-en.html)
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  id: 
+                    type: integer
+                    example: 14944
+                  player_nick: 
+                    type: string
+                    example: kakao`
+                  matches:
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/PlayerExpDetail'
+  /v2/players/14944/game_objectives/:
+    get:
+      tags:
+        - "Zadanie 2"
+      summary: Pre konkrétneho hráča identifikovaného v URL ako {player_id} vráti metadáta o ňom a jeho aktivitách v rámci hry.
+      description: Napíšte SQL dotaz, ktorý vráti nasledovné stĺpce:`id`, `player_nick` ktoré v prípade že nie je vyplnené vráti "unknown", `hero_localized_name`, `match_id`, `hero_action` ako údaj z game_objectives.subtype, ktorý vráti len rozdielne akcie, ktoré používateľ vykonal v rámci hry.V prípade, že hráč nevykonal žiadnu akciu, tak subtype je NO_ACTION a `count` ako početnosť danej akcie v rámci hry. Operujte nad tabuľkami `players`, `matches_players_details`, `heroes`, `matches` a `game_objectives`.
+      responses:
+        '200':
+          description: Očakávaná odpoveď vo formáte [JSON](https://www.json.org/json-en.html)
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  id: 
+                    type: integer
+                    example: 14944
+                  player_nick: 
+                    type: string
+                    example: kakao`
+                  matches:
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/PlayerActionDetail'
+  /v2/players/14944/abilities/:
+    get:
+      tags:
+        - "Zadanie 2"
+      summary: Pre konkrétneho hráča identifikovaného v URL ako {player_id} vráti metadáta o ňom a jeho abilitách získaných v hre
+      description: Napíšte SQL dotaz, ktorý vráti nasledovné stĺpce:`id`, `player_nick` ktoré v prípade že nie je vyplnené vráti "unknown", `hero_localized_name`, `match_id`, `ability_name` ako údaj z abilities.name, prepojený cez ability_upgrades, ktoré si používateľ vybral v rámci hry, `count` ako početnosť výberu danej ability (jedna abilita môže byť vybraná viac krát) v rámci hry a `upgrade_level` ako najvýšší level pri ktorom si abilitu vybral (ak si vybral viac krát, tak najvyšší level). Operujte nad tabuľkami `players`, `matches_players_details`, `heroes`, `matches`, `ability_upgrades` a `abilities`.
+      responses:
+        '200':
+          description: Očakávaná odpoveď vo formáte [JSON](https://www.json.org/json-en.html)
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  id: 
+                    type: integer
+                    example: 14944
+                  player_nick: 
+                    type: string
+                    example: kakao`
+                  matches:
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/PlayerAbilityDetail'
+components:
+  schemas:
+  
+    PlayerAbilityDetail:
+      properties:
+        match_id:
+          type: integer
+          example: 2980
+
+        hero_localized_name: 
+          type: string
+          example: Slardar
+        abilities:
+          type: array
+          items:
+            properties:
+              ability_name:
+                type: string
+                example: slardar_slithereen_crush
+              count:
+                type: integer
+                example: 1
+              upgrade_level:
+                type: integer
+                example: 7
+          
+    PlayerActionDetail:
+      properties:
+        match_id:
+          type: integer
+          example: 17730
+
+        hero_localized_name: 
+          type: string
+          example: Slardar
+        actions:
+          type: array
+          items:
+            properties:
+              hero_action:
+                type: string
+                example: CHAT_MESSAGE_TOWER_KILL
+              count:
+                type: integer
+                example: 1
+
+    PlayerExpDetail:
+      properties:
+        match_id:
+          type: integer
+          example: 30221
+        hero_localized_name: 
+          type: string
+          example: Dark Seer
+        match_duration_minutes: 
+          type: number
+          example: 52.93
+        experiences_gained: 
+          type: integer
+          example: 25844
+        level_gained: 
+          type: integer
+          example: 22
+        winner: 
+          type: boolean
+          example: true
+
+    PatchDetail:
+      properties:
+        patch_version: 
+          type: string
+          example: 6.71
+        patch_start_date: 
+          type: integer
+          example: 1446681600
+        patch_end_date: 
+          type: integer
+          example: 1446768000
+        matches:
+          type: array
+          items:
+            properties:
+              match_id:
+                type: integer
+                example: 0
+              duration:
+                type: number
+                example: 39.58
+  

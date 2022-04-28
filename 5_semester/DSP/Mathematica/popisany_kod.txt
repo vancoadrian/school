@@ -1,0 +1,43 @@
+//ofarbovacia funkcia pre časti pie chartu
+coloring[x_, index_] := Module[{zlomok = x}, 
+   numerator = Numerator[zlomok]; 
+   denominator = Denominator[zlomok];
+   If[zlomok > 1 && index[[1]] <= numerator - denominator, Style[x, Red], 
+	If[index[[1]] <= numerator, 
+		Style[x, Orange], 
+            	Style[x, White]
+	]
+   ]
+];
+
+Manipulate[
+//kontrola aby zlomky na scitanie neprekrocili vacsiu hodnotu ako 1
+ If[a > b, a = b]; If[c > d, c = d];
+
+//premenne pre lepsiu priehladnost v kode
+ zlomok1 = a/b;
+ zlomok2 = c/d;
+ vysledok = zlomok1 + zlomok2;
+ 
+//vytvorim si listy, ktoré budu mat pocet prvkov na kolko sa ma graf rozdelit, teda menovatel zlomku udava pocet
+list1 = Tuples[{zlomok1}, Denominator[zlomok1]][[1]];
+list2 = Tuples[{zlomok2}, Denominator[zlomok2]][[1]];
+listVysledok = Tuples[{zlomok2}, Denominator[zlomok2]][[1]];
+ 
+//pouzivame grid pre pre zarovnanie,Grid má 2 riadky a 5 stlpcov. v prvom riadku su zlomky. zlomky a "+" a "=" su v jednotlivych bunkach
+//v druhom riadku sú pie charty pre jednotlivé zlomky a "+" a "=" tiež v bunkách v gride
+//a na konci su riadiace premenne a popisy k nim
+ Style[
+ Grid[
+  {
+   {zlomok1, "+", zlomok2, "=", vysledok},
+   {PieChart[{MapIndexed [coloring][list1]}], "+", 
+    PieChart[{MapIndexed [coloring][list2]}], "=", 
+    PieChart[{MapIndexed [coloring][listVysledok]}]}
+   }, Alignment -> {Center, Center}
+  ]
+ , 40]
+, Style["Prvy zlomok", Bold], {{a, 1, "Citatel"}, 1, b, 1}, {{b, 2, 
+  "Menovatel"}, 1, 20, 1}, Delimiter, Style["Druhy zlomok", Bold], \
+{{c, 1, "Citatel"}, 1, d, 1}, {{d, 3, "Menovatel"}, 1, 20, 1}
+ ]

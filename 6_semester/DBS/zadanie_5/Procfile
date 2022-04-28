@@ -1,0 +1,1 @@
+web: cd zadanie_5 && gunicorn zadanie_5.heroku_db_project.wsgi
