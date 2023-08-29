@@ -1,5 +1,30 @@
 # FIIT STU
 
+## 8 semester
+
+WTECH - Základy webových technológií
+- HTML
+- CSS, Bootstrap
+- Javascript
+- PHP, Laravel
+- PostgreSQL
+
+PAP - Projektovanie aplikácií počítačov
+- Tvorba projektovej dokumentácie
+
+PAM - Podnikanie a manažment
+- Základné poznatky o podniku, podnikaní a manažmente podniku
+
+## 7 semester
+
+ICP - Interakcia človeka s počítačom
+- Figma
+- UX/UI
+
+MSOFT - Modelovanie softvéru
+- Enterprise Architect
+- Python
+
 ## 6 semester
 
 DBS - Databazove systemy
