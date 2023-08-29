@@ -1,0 +1,148 @@
+6/1
+Napíšte program, ktorý zo štandardného vstupu (klávesnice) načíta znak. Ďalej číta znaky zo súboru znak.txt. Ak program prečítal zo štandardného vstupu (klávesnice) 's', vypisuje načítané znaky do súboru novy.txt. Ak načítal ľubovoľný iný znak, vypisuje načítané znaky na štandardný výstup (obrazovku). Súbor novy.txt alebo štandardný výstup bude teda obsahovať presnú kópiu obsahu súboru znak.txt.
+
+Ukážka vstupu:
+s
+Ukážka súboru znak.txt:
+abrakadabra
+bubu
+Súbor novy.txt pre ukážkový vstup:
+abrakadabra
+bubu
+
+#include <stdio.h>
+
+int main()
+{
+	int z;
+	char c;
+	FILE *fr, *fw;
+	c = getchar();
+	fr = fopen("znak.txt", "r");
+	fw = fopen("novy.txt", "w");
+
+	while ((z = getc(fr)) != EOF)
+	if (c == 's')
+	{
+		putc(z, fw);
+	}
+	else
+	{
+		putc(z, stdout);
+	}
+	return 0;
+}
+
+6/2
+Napíšte program, ktorý číta znaky zo súboru vstup.txt po riadkoch. Každý riadok prepíše do súboru cisla.txt. 
+Po každom prepísanom riadku na ďalšom riadku uvedie počet malých písmen z prečítaného riadku. 
+Ak súbor už predtým existoval a obsahoval nejaké dáta, program tieto dáta nezmaže a svoj výstup napíše na koniec 
+súboru cisla.txt. Program nečíta žiaden vstup zo štandardného vstupu a nevypisuje žiaden výstup na štandardný výstup. 
+Predpokladajte, že posledný riadok je vždy ukončený koncom riadku.
+
+Ukážka súboru vstup.txt:
+ahoj123
+x*Y*z
+Ukážka súboru cisla.txt pred spustením programu:
+qwerty
+6
+Súbor cisla.txt po spustení programu:
+qwerty
+6
+ahoj123
+4
+x*Y*z
+2
+
+#include <stdio.h>
+
+int main() {
+	int c, n = 0;
+	FILE* fr,* fw;
+	fr = fopen("vstup.txt", "r");
+	fw = fopen("cisla.txt", "a");
+	while ((c = getc(fr)) != EOF){
+		if (c >= 'a' && c <= 'z') n++;
+		putc(c, fw);
+		if (c == '\n')
+		{
+			fprintf(fw, "%d\n", n);
+			n = 0;
+		}
+	}
+
+	return 0;
+}
+
+
+
+6/3
+Napíšte program, ktorý bude čítať znaky zo súboru text.txt pokiaľ nenačíta znak '*'. Ak načíta znak 'x' alebo 'X' 
+vypíše Precital som X, ak znak 'y' alebo 'Y' vypíše Precital som Y, ak načíta znaky '#', '$' alebo '&' vypíše 
+Precital som riadiaci znak a ak načíta znak '*' vypíše Koniec a skončí čítanie súboru. Po prečítaní súboru vypíše 
+správu Pocet precitanych medzier: nasledovanú medzerou a počtom prečítaných medzier. Každá správa je nasledovaná 
+koncom riadku.
+
+Ukážka súboru text.txt:
+$ abc 5 xyz #
+& Q *# abf
+Ukážkový výstup pre súbor text.txt:
+Precital som riadiaci znak
+Precital som X
+Precital som Y
+Precital som riadiaci znak
+Precital som riadiaci znak
+Koniec
+Pocet precitanych medzier: 6
+
+
+#include <stdio.h>
+
+int main() {
+	int m=0;
+  	int c;
+	FILE* fr;
+	fr = fopen("text.txt", "r");
+	while ((c=getc(fr)) != '*')
+	{
+		if (c == 'x' || c == 'X')
+		{
+			printf("Precital som X\n");
+		}
+		if (c == 'y' || c == 'Y')
+		{
+			printf("Precital som Y\n");
+		}
+		if (c == '#' || c == '&' || c == '$')
+		{
+			printf("Precital som riadiaci znak\n");
+		}
+		if (c == ' ')
+		{
+			m++;
+		}
+	}
+  printf("Koniec\n");
+	printf("Pocet precitanych medzier: %d\n", m);
+	return 0;
+}
+
+
+
+6/4
+Napíšte program, ktorý slová zo súborov prvy.txt a druhy.txt zapíše do súboru treti.txt striedavo tak, že každé
+ nepárne slovo v súbore treti.txt bude zo súboru prvy.txt a každé párne zo súboru druhy.txt v poradí, ako boli v 
+pôvodných súboroch. Každé (aj posledné) slovo v súbore treti.txt bude nasledované medzerou. Naviac, pred každým
+ slovom bude značka vyjadrujúca, z ktorého súboru slovo pochádza. Ak zo súboru prvy.txt, značkou je znak +, ak zo 
+súboru druhy.txt, značkou je znak -. Ak niektorý zo súborov obsahuje viac slov ako druhý, potom tieto budú zapísané 
+za sebou na konci súboru treti.txt. Predpokladajte, že slová obsahujú len písmená a oddelené môžu byť len jednou 
+medzerou alebo jedným znakom konca riadku.
+
+Ukážka súboru prvy.txt:
+Ahojte
+nasi studenti
+ktori maju radi programovanie
+Ukážka súboru druhy.txt:
+vsetci mili
+Ukážka súboru treti.txt:
++Ahojte -vsetci +nasi -mili +studenti +ktori +maju +radi +programovanie

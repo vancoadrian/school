@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>RunChickenRun</title>
+        <link rel="stylesheet" href="style.css">
+        
+    </head>
+    <body>
+
+        <img id="bus" src="./assets/bus.png" alt="">
+        <img id="chicken" src="./assets/chicken.png" alt="">
+        <img src="./assets/red_leather.png" alt="">
+        <img src="./assets/sedan.png" alt="">
+        <img src="./assets/wood.png" alt="">
+        <img id="gameBack" src="./assets/game_background.png" alt="">
+        <img id="menuBack" src="./assets/menu_background.png" alt="">
+        <img id="overBack" src="./assets/over_background.png" alt="">
+        <img id="pauseBack" src="./assets/pause_background.png" alt="">
+        <img id="instrBack" src="./assets/instr_background.png" alt="">
+
+        <button type="button" id="startBtn" onclick="game.start()">START</button>
+        <button type="button" id="instrBtn" onclick="game.gamestate=GAMESTATE.INSTRUCTIONS">INSTRUCTIONS</button>
+        <button type="button" id="soundBtn" onclick="game.playMusic()">SOUND</button>
+        <button type="button" id="backBtn" onclick="game.gamestate=GAMESTATE.MENU">BACK</button>
+
+        <canvas id="canvas" style="border: 1px solid #000000;" width="800" height="600">No Canvas :(</canvas>
+        <script src="src/enemies.js"></script>
+        <script src="src/sounds.js"></script>
+        <script src="src/detectCollision.js"></script>
+        <script src="src/chicken.js"></script>
+        <script src="src/buildLevel.js"></script>
+        <script src="src/InputHandler.js"></script>
+        <script src="src/game.js"></script>
+        <script src="src/main.js"></script>
+        
+        
+    </body>
+</html>

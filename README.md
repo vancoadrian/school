@@ -67,3 +67,37 @@ ZOOP - Základy objektovo-orientovaného programovania
 
 PPI - Princípy počítačového inžinierstva
 - Logické obvody
+
+## 2 semester
+
+SEMAP1 - Seminár z algoritmizácie a programovania 1
+- C
+
+ZPRPR2 - Základy procedurálneho programovania 2
+- C
+
+ZTIAPL - Základy tvorby interaktívnych aplikácií
+- HTML
+- CSS
+- PHP
+- Javascript
+
+## 1 semester
+
+ZPRPR1 - Základy procedurálneho programovania 1
+- C
+
+IVZDEL - Informačné vzdelávanie
+- IoT článok
+
+ZMTMO - Základné metódy tvorby multimediálneho obsahu
+- HTML
+- CSS
+- PHP
+- Javascript
+- JSON
+
+MIP - Metódy inžinierskej práce
+- Prezentácia: Právo a počítačová veda
+- LaTeX
+

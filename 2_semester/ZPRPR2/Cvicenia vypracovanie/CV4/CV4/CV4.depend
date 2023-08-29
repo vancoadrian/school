@@ -1,0 +1,20 @@
+# depslib dependency file v1.0
+1584360827 source:c:\users\adrián\onedrive\poèítaè\fiit\2 semester\zaklady procedurálneho programovania 2\cv4\cv4\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1584390902 source:c:\users\adrián\onedrive\poèítaè\fiit\2 semester\zaklady procedurálneho programovania 2\cv4\cv4\untitled2.c
+	<stdio.h>
+	<stdlib.h>
+
+1584393525 source:c:\users\adrián\onedrive\poèítaè\fiit\2 semester\zaklady procedurálneho programovania 2\cv4\cv4\untitled1.c
+	<stdlib.h>
+	<stdio.h>
+	<stdlib.h>
+
+1584386626 source:c:\users\adrián\onedrive\poèítaè\fiit\2 semester\zaklady procedurálneho programovania 2\cv4\cv4\naim.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+

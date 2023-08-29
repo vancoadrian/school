@@ -1,0 +1,272 @@
+7/1
+Napíšte program, ktorý zistí počet jednotlivých písmen v každom riadku súboru. Vstupom programu je jeden riadok obsahujúci meno súboru. Výstupom je histogram výskytu písmen zapísaný v prehľadnej tabuľke, kde prvý riadok bude obsahovať všetky písmená abecedy prehľadne oddelené. Každý ďalší riadok bude obsahovať číslo riadku a vždy pod písmenami budú zarovnané počty výskytov tohto písmena v jednotlivých riadkoch súboru (nerozlišujte medzi veľkými a malými písmenami). Počty výskytov uveďte ako najviac dvojciferné celé číslo predchádzané jednou medzerou. Všetky riadky výstupu budú ukončené znakom konca riadku.
+
+Ukážka vstupu:
+subor.txt
+Ukážka obsahu súboru subor.txt:
+Toto je ukazkovy subor.
+V subore su pismena.
+Výstup pre ukážkový vstup:
+    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z
+ 1  1  1  0  0  1  0  0  0  0  1  2  0  0  0  4  0  0  1  1  2  2  1  0  0  1  1
+ 2  1  1  0  0  2  0  0  0  1  0  0  0  1  1  1  1  0  1  3  0  2  1  0  0  0  0
+
+
+#include<stdio.h>
+#define N 'Z' - 'A' + 1    /* pocet pismen abecedy */
+
+int main()
+{
+   int c, i, r = 0;
+   char hist[N];
+   FILE *fr;
+   char nazov [20];
+    scanf("%s",nazov);
+   fr = fopen(nazov, "r");
+    printf("  ");
+   for (i = 0; i < N; i++)
+	{
+		printf(" %c ",'A' + i);
+	}
+
+
+
+   for (i=0; i<N; i++)
+      hist[i] = 0;
+
+   while ((c = getc(fr)) != EOF) {
+        if(c >= 'A' && c <= 'Z')
+            hist[c - 'A']++;
+        if(c >= 'a' && c <= 'z')
+            hist[c - 'a']++;
+        if (c == '\n') {
+			r++;
+			printf("\n%d", r);
+			for (int i = 0; i < N; i++) {
+				printf(" %2d", hist[i]);
+				hist[i]=0;
+            }
+        }
+   }
+
+   return 0;
+}
+
+
+7/2
+Napíšte funkciu int parne(int x[], int pocetx, int y[]), ktorá skopíruje všetky párne čísla z poľa x do poľa y v poradí v akom sa nachádzajú v poli x a vráti počet prvkov poľa y. Argument pocetx určuje počet prvkov poľa x.
+
+Môžete predpokladať, že argument y, bude mať dostatočnú veľkosť pre všetky párne prvky.
+
+Ukážka volania:
+x = {4, 7, 1, 3, 2, 5, 6}
+pocetx = 7 
+pocety = parne(x, pocetx, y);  // volanie funkcie
+pocety: 3                      // vypis vysledku
+y: {4, 2, 6}
+
+// uloha7-2.c -- Adrián Vančo, 4.11.2019 17:10
+
+#include <stdio.h>
+
+int parne(int x[], int pocetx, int y[])
+{
+  int i, j = 0;
+  for( i = 0; i < pocetx; i++){
+    if(x[i] % 2 == 0){
+      y[j] = x[i];
+      j++;
+    }
+  }
+  return j;
+
+}
+
+int main()
+{
+  int i, x[10], pocetx;
+  scanf("%d", &pocetx);
+  for (i = 0; i < pocetx; i++)
+    scanf("%d", &x[i]);
+
+  int y[10];
+  int pocety = parne(x, pocetx, y);
+  printf("pocety: %d\ny: {", pocety);
+  for (i = 0; i < pocety; i++)
+  {
+    if (i > 0)
+      printf(", ");
+    printf("%d", y[i]);
+  }
+  printf("}\n");
+  return 0;
+}
+
+
+7/3
+Napíšte funkciu int nasobky(int x[], int pocetx, int y[], int k), ktorá z poľa x prekopíruje do poľa y všetky násobky čísla k (k >= 0), v poradí v akom sa nachádzajú v poli x a vráti počet prvkov poľa y. Argument pocetx určuje počet prvkov poľa x.
+
+Môžete predpokladať, že argument y, bude mať dostatočnú veľkosť pre všetky násobky čísla k, ktoré sú v poli x.
+
+Ukážka volania:
+x = {4, 7, 10, 1, 3, 9, 2, 5, 8, 6}
+pocetx = 10
+pocety = nasobky(x, pocetx, y, 2);   // volanie funkcie
+pocety: 5                            // vypis vysledku
+y: {4, 10, 2, 8, 6}
+
+// uloha7-3.c -- Adrián Vančo, 4.11.2019 17:10
+
+#include <stdio.h>
+
+int nasobky(int x[], int pocetx, int y[], int k)
+{
+	// sem napis svoje riesenie
+	int i, p=0;
+	if(k<0)
+	return 0;
+	if (k == 0)
+	{
+		for( i = 0; i < pocetx; i++){
+    	if(x[i] == 0){
+      		y[p] = x[i];
+      		p++;
+    		}
+		}
+		return p;
+	}
+    if(k >= 0)
+    for( i = 0; i < pocetx; i++){
+        if(x[i] % k == 0){
+            y[p] = x[i];
+            p++;
+        }
+    }
+    return p;
+}
+
+int main()
+{
+	int i, x[10], pocetx;
+	scanf("%d", &pocetx);
+	for (i = 0; i < pocetx; i++)
+		scanf("%d", &x[i]);
+
+	int y[10];
+	int pocety = nasobky(x, pocetx, y, 2);
+	printf("pocety: %d\ny: {", pocety);
+	for (i = 0; i < pocety; i++)
+	{
+		if (i > 0)
+			printf(", ");
+		printf("%d", y[i]);
+	}
+	printf("}\n");
+	return 0;
+}
+
+7/4
+Napíšte funkciu int delitele(int x[], int pocetx, int y[], int k), ktorá z poľa x prekopíruje do poľa y všetky delitele čísla k, v poradí v ako sa nachádzajú v poli x a vráti počet prvkov poľa y. Argument pocetx určuje počet prvkov poľa x.
+
+Môžete predpokladať, že argument y, bude mať dostatočnú veľkosť pre všetky delitele čísla k, ktoré sú v poli x.
+
+Ukážka volania:
+x = {4, 7, 10, 2, 3, 9, 6, 5, 8, 12}
+pocetx = 10
+pocety = delitele(x, pocetx, y, 24); // volanie funkcie
+pocety: 6                            // vypis vysledku
+y: {4, 2, 3, 6, 8, 12}
+
+// uloha7-4.c -- Adrián Vančo, 4.11.2019 17:10
+
+#include <stdio.h>
+
+int delitele(int x[], int pocetx, int y[], int k)
+{
+	// sem napis svoje riesenie
+	int i,p = 0;
+	if(k>0){
+		for(i=0; i< pocetx;i++){
+			if(k % x[i] == 0){
+			y[p] = x[i];
+			p++;
+			}		
+		}
+	}
+	return p;
+	
+}
+
+int main()
+{
+	int i, x[10], pocetx;
+	scanf("%d", &pocetx);
+	for (i = 0; i < pocetx; i++)
+		scanf("%d", &x[i]);
+
+	int y[10];
+	int pocety = delitele(x, pocetx, y, 24);
+	printf("pocety: %d\ny: {", pocety);
+	for (i = 0; i < pocety; i++)
+	{
+		if (i > 0)
+			printf(", ");
+		printf("%d", y[i]);
+	}
+	printf("}\n");
+	return 0;
+}
+
+
+7/5
+Napíšte funkciu double skalarny_sucin(double a[], double b[], int n), ktorá vypočíta skalárny súčin n-rozmerných vektorov a a b.
+
+Predpokladajte štandardnú definíciu skalárneho súčinu.
+
+// uloha7-5.c -- Adrián Vančo, 4.11.2019 17:10
+
+
+#include <stdio.h>
+
+double skalarny_sucin(double *a, double *b, int n)
+{
+  int i;
+  double p=0;
+  double x[100];
+  for(i=0; i < n; i++){
+    x[i]=a[i] * b[i];
+  }
+  for(i=0; i < n; i++){
+    p=p+x[i];
+  }
+ return p;
+}
+
+int main()
+{
+  int i, n;
+  double a[100], b[100];
+  scanf("%d", &n);
+  for (i = 0; i < n; i++)
+    scanf("%lf", &a[i]);
+  for (i = 0; i < n; i++)
+    scanf("%lf", &b[i]);
+  printf("%.2lf\n", skalarny_sucin(a, b, n));
+  return 0;
+}
+
+7/6
+
+Napíšte program, ktorý načíta do poľa postupnosť reálnych čísel, zistí, či je postupnosť v poli usporiadaná vzostupne (od najmenšieho po najväčší), zostupne (od najväčšieho po najmenšie), alebo nie je usporiadaná, a umožní vložiť do poľa číslo. V prípade, že je pole usporiadané vzostupne alebo zostupne, prvok sa vloží do poľa tak, aby zostalo pole usporiadané. V prípade, že nie je usporiadané, vloží ho na koniec. Predpokladajte, že pole môže obsahovať najviac 30 prvkov. Vstup pozostáva z riadku obsahujúceho celé číslo N (1 < N <= 30) vyjadrujúce počet čísel postupnosti. Potom nasleduje N+1 riadkov, každý obsahujúci reálne číslo. Prvých N čísel predstavuje čísla postupnosti a posledné číslo predstavuje číslo, ktoré sa má do postupnosti vložiť.
+
+Výstupom sú 2 riadky, každý ukončený znakom konca riadku. Prvý riadok obsahuje jednu zo správ: Postupnost je usporiadana vzostupne alebo Postupnost je usporiadana zostupne alebo Postupnost nie je usporiadana Druhý riadok obsahuje výpis poľa aj s vloženým prvkom, pričom prvky poľa sú oddelené vždy jednou medzerou. V prípade, že samotná postupnosť už obsahuje 30 prvkov, nie je možné do poľa už ďalší prvok vložiť. V takom prípade sa vypíše pole bez vkladaného prvku.
+
+Ukážka vstupu:
+3
+1.2
+3.56
+7.19
+6.4
+Výstup pre ukážkový vstup:
+Postupnost je usporiadana vzostupne
+1.2 3.56 6.4 7.19

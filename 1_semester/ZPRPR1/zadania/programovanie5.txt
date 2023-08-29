@@ -1,0 +1,486 @@
+5/1
+Napíšte program, ktorý vypíše Floydov trojuholník. Program na vstupe načíta celé číslo N z intervalu <1, 10>. Floydov trojuholník má N riadkov, kde každý nasledujúci riadok má vždy o jeden prvok viac ako predchádzajúci riadok. Prvky trojuholníka tvorí rastúca postupnosť čísel začínajúc číslom 1. Každý riadok je ukončený znakom konca riadku a medzi jednotlivými číslami v riadku je vždy jedna medzera. Ak je na vstupe načítané iné číslo ako z definovaného intervalu, tak program vypíše správu: Nespravny vstup a skončí.
+
+Ukážka vstupu:
+6
+Výstup pre ukážkový vstup:
+1
+2 3
+4 5 6
+7 8 9 10
+11 12 13 14 16
+16 17 18 19 20 21
+
+
+/*#include <stdio.h>
+
+int main()
+{
+	int n,i,j,k=1;
+	scanf_s("%d", &n);
+	if (n<10 && n>1)
+		for ( i = 0; i < n; i++)
+		{
+			for (j = 0; j<=i; j++)
+			{
+				printf("%d ", k++);
+			}
+			printf("\n");
+		}
+	
+	return 0;
+}*/
+
+
+5/2
+Napíšte program, ktorý načíta číslo N. Ak je N < 1 alebo N > 15, program vypíše chybovú hlášku Cislo nie je z daneho intervalu a skončí. V opačnom prípade program vypíše N riadkov, kde každý bude obsahovat’ číslo riadku, dvojbodku, medzeru a čísla oddelené medzerou. V prvom riadku budú za dvojbodkou vypísané čísla od 1 po N. V každom nasledovnom riadku bude vždy o jedno číslo menej. Všetky čísla vypisujte na 2 miesta.
+
+Ukážka vstupu:
+4
+Výstup pre ukážkový vstup:
+1:  1  2  3  4
+2:  1  2  3
+3:  1  2
+4:  1
+
+/*#include <stdio.h>
+
+int main()
+{
+	int n,i,j,k=1,r=1;
+	scanf_s("%d", &n);
+	if (n<15 || n>1)
+		for ( i = 0; i < n; i++)
+		{
+			printf("%d: ", r++);
+			for (j = n; j > i; j--)
+			{
+				printf("%d ",n-j+1);
+			}
+			printf("\n");
+		}
+	else
+	{
+		printf("Cislo nie je z daneho intervalu");
+	}
+
+	return 0;
+}*/
+
+#include <stdio.h>
+
+int main()
+{
+	int n, i, j, k = 1, r = 1;
+	scanf_s("%d", &n);
+	if (n < 15 || n>1)
+		for (i = 0; n > 0 ; n--)
+		{
+			printf("%d: ", r++);
+			for (j = 1; j <= n; j++)
+			{
+				printf("%d ", j);
+			}
+			printf("\n");
+		}
+	else
+	{
+		printf("Cislo nie je z daneho intervalu");
+	}
+
+	return 0;
+}
+
+5/3
+Napíšte program, ktorý načíta číslo N. Ak je N < 1 alebo N > 15, program vypíše chybovú hlášku Cislo nie je z daneho intervalu a skončí. V opačnom prípade program vypíše N riadkov, kde každý bude obsahovat’ číslo riadku, dvojbodku, medzeru a čísla oddelené medzerou. V prvom riadku budú za dvojbodkou vypísané čísla od N po 1. V každom nasledovnom riadku bude vždy o jedno číslo menej. Všetky čísla vypisujte na 2 miesta.
+
+Ukážka vstupu:
+4
+Výstup pre ukážkový vstup:
+1:  4  3  2  1
+2:  3  2  1
+3:  2  1
+4:  1
+
+
+
+
+5/3
+Napíšte program, ktorý načíta číslo N. Ak je N < 1 alebo N > 15, program vypíše chybovú hlášku Cislo nie je z daneho intervalu a skončí. V opačnom prípade program vypíše N riadkov, kde každý bude obsahovat’ číslo riadku, dvojbodku, medzeru a čísla oddelené medzerou. V prvom riadku budú za dvojbodkou vypísané čísla od N po 1. V každom nasledovnom riadku bude vždy o jedno číslo menej. Všetky čísla vypisujte na 2 miesta.
+
+Ukážka vstupu:
+4
+Výstup pre ukážkový vstup:
+1:  4  3  2  1
+2:  3  2  1
+3:  2  1
+4:  1
+
+
+#include <stdio.h>
+
+int main()
+{
+	int n,p,i,r=0;
+	scanf_s("%d", &n);
+	if (n<15 || n>1)
+		for ( i = n; i > 0; i--)
+		{
+			printf("%d: ",++r);
+			for (p = i; p > 0; p--)
+			{
+				printf("%d ", p);
+			}
+			printf("\n");
+		}
+	else
+	{
+		printf("Cislo nie je z daneho intervalu");
+	}
+	return 0;
+}
+
+
+5/4
+Napíšte program, ktorý načíta číslo N. Ak je N < 1, N > 15 alebo je N párne číslo, program vypíše chybu Zly vstup a skončí. Ak bude program pokračovať, zo znakov '*' a '-' (medzera) nakreslí rovnoramenný trojuholník s výškou N.
+
+Ukážka vstupu:
+5
+Výstup pre ukážkový vstup:
+*----
+**---
+***--
+****-
+*****
+****-
+***--
+**---
+*----
+Poznámka: Znak '-' vo výstupe reprezentuje medzeru.
+
+#include <stdio.h>
+
+int main()
+{
+	int n,i,j;
+	scanf_s("%d", &n);
+	if ((n<1 || n>15) || n%2==0)
+	{
+		printf("Zly vstup");
+	}
+	else
+	{
+		for ( i = 1; i <= n*2-1; i++)
+		{
+			if (i<=n)
+			{
+
+			
+			for ( j = 1; j <= n; j++)
+			{
+				if (i>=j)
+				{
+					putchar('*');
+				}
+				else
+				{
+					putchar(' ');
+				}
+			}
+			putchar('\n');
+			}
+			else
+			{
+				for (j = n*2; j >= n; --j)
+				{
+					if (i >= j)
+					{
+						putchar(' ');
+					}
+					else
+					{
+						
+						putchar('*');
+					}
+				}
+				putchar('\n');
+			}
+
+
+
+		}
+	}
+	return 0;
+}
+
+5/5
+Napíšte program, ktorý načíta číslo N. Ak je N < 1, N > 15 alebo je N párne číslo, program vypíše chybu Zly vstup a skončí. Ak bude program pokračovať, zo znakov '*' a '-' (pomlčka) nakreslí hviezdu o veľkosti N x N.
+
+Ukážka vstupu:
+9
+Výstup pre ukážkový vstup:
+*---*---*
+-*--*--*-
+--*-*-*--
+---***---
+*********
+---***---
+--*-*-*--
+-*--*--*-
+*---*---*
+
+#include <stdio.h>
+
+int main()
+{
+ int n, i, j;
+	scanf("%d", &n);
+	if ((n < 1 || n>15) || n % 2 == 0)
+	{
+		printf("Zly vstup");
+	}
+	else
+	{
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++)
+			if (i==n/2 || j==n/2 || (i+j==n-1) || i==j)
+				putchar('*');
+			else
+				putchar('-');
+		putchar('\n');
+	}
+
+  return 0;
+}
+}
+
+
+5/6
+Napíšte program, ktorý načíta dve celé čísla N a v oddelené medzerou. Ak je N < 1, N > 15 alebo je N párne číslo, alebo v nie je z intervalu <1,5>, program vypíše chybu Zly vstup a skončí. Ak bude program pokračovať, zo znakov '*' a '-' (pomlčka) nakreslí v obrázkov hviezdy pod seba o veľkosti N x N.
+
+Ukážka vstupu:
+5 2
+Výstup pre ukážkový vstup:
+*-*-*
+-***-
+*****
+-***-
+*-*-*
+*-*-*
+-***-
+*****
+-***-
+*-*-*
+
+#include <stdio.h>
+
+int main()
+{
+	int n, i, j,v,k;
+	scanf("%d %d", &n,&v);
+	if ((n < 1 || n > 15) || n % 2 == 0 || (v < 1 || v >5))
+	{
+		printf("Zly vstup");
+	}
+	else
+	{
+
+		for ( k = 0; k < v; k++)
+		{
+
+		
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++)
+			if (i==n/2 || j==n/2 || (i+j==n-1) || i==j)
+				putchar('*');
+			else
+				putchar('-');
+		putchar('\n');
+	}
+		}
+	return 0;
+	}
+	
+
+}
+
+
+5/7
+Napíšte program, ktorý načíta dve celé čísla N a s oddelené medzerou. Ak je N < 1, N > 15 alebo je N párne číslo, alebo s nie je z intervalu <1,5>, program vypíše chybu Zly vstup a skončí. Ak bude program pokračovať, zo znakov '*' a '-' (pomlčka) nakreslí s obrázkov hviezdy vedľa seba o veľkosti N x N.
+
+Ukážka vstupu:
+9 2
+Výstup pre ukážkový vstup:
+*---*---**---*---*
+-*--*--*--*--*--*-
+--*-*-*----*-*-*--
+---***------***---
+******************
+---***------***---
+--*-*-*----*-*-*--
+-*--*--*--*--*--*-
+*---*---**---*---*
+
+#include <stdio.h>
+
+int main()
+{
+	int n, i, j, s, k;
+	scanf_s("%d %d", &n, &s);
+	if ((n < 1 || n > 15) || n % 2 == 0 || (s < 1 || s >5))
+	{
+		printf("Zly vstup");
+	}
+	else
+	{
+			for (i = 0; i < n; i++) {
+				for (k = 0; k < s; k++)
+				for (j = 0; j < n; j++)
+					if (i == n / 2 || j == n / 2 || (i + j == n - 1) || i == j)
+						putchar('*');
+					else
+						putchar('-');
+				putchar('\n');
+			}
+		return 0;
+	}
+}
+
+
+5/8
+Napíšte program, ktorý načíta tri celé čísla N, s a v oddelené medzerou. Ak je N < 1, N > 15 alebo je N párne číslo, alebo s nie je z intervalu <1,5>, alebo v nie je z intervalu <1,5>, program vypíše chybu Zly vstup a skončí. Ak bude program pokračovať, zo znakov '*' a '-' (pomlčka) nakreslí s x v obrázkov hviezdy podľa ukážky (t.j. s vedľa seba a v pod seba).
+
+Ukážka vstupu:
+5 4 3
+Výstup pre ukážkový vstup:
+*-*-**-*-**-*-**-*-*
+-***--***--***--***-
+********************
+-***--***--***--***-
+*-*-**-*-**-*-**-*-*
+*-*-**-*-**-*-**-*-*
+-***--***--***--***-
+********************
+-***--***--***--***-
+*-*-**-*-**-*-**-*-*
+*-*-**-*-**-*-**-*-*
+-***--***--***--***-
+********************
+-***--***--***--***-
+*-*-**-*-**-*-**-*-*
+
+5/9
+Napíšte program, ktorý načíta celé číslo N. Ak je N < 3, N > 15 alebo je N párne číslo, program vypíše chybu Zly vstup a skončí. Ak bude program pokračovať, zo znakov '*' a '-' (pomlčka) nakreslí do súboru obrazok.txt obrázok (pripomínajúci českú vlajku) s rozmermi (2N-1)x(2N-1) podľa ukážkového výstupu. Ošetrite otvorenie a zatvorenie súboru. Ak sa súbor nepodarí otvoriť, program vypíše správy Chyba: otvaranie suboru Ak sa súbor nepodarí zatvoriť, program vypíše správu Chyba: zatvaranie suboru Každá správa je ukončená znakom konca riadku.
+
+Ukážka vstupu:
+5
+Výstup (súbor obrazok.txt) pre ukážkový vstup:
+*--------
+**-------
+***------
+****-----
+*********
+****ooooo
+***oooooo
+**ooooooo
+*oooooooo
+
+#include <stdio.h>
+
+int main()
+{
+	int n,i,j;	
+	FILE* f;
+	scanf_s("%d", &n);
+	if (( n<3 || n>15 ) || n%2==0)
+	{
+		printf("Zly vstup");
+		return 0;
+	}
+	else
+	{
+		if ((f = fopen("obrazok.txt", "w")) != NULL) {
+		
+			for (i = 0; i < n * 2 - 1; i++)
+			{
+				for (j = 0; j < n * 2 - 1; j++)
+				{
+					if (j == 0 || i == n - 1 || (i < n && j <= i) || (i >= n && (n - 1 - j) > (i - n)))
+					{
+						putc('*',f);
+					}
+					else if (i < n)
+					{
+						putc('-',f);
+					}
+					else
+					{
+						putc('o',f);
+					}
+				}
+				fprintf(f,"\n");
+			}
+		}
+		else
+		{
+			printf("Chyba otvarania suboru\n");
+		}
+		if (fclose(f) == EOF)
+		{
+			printf("Chyba: zatvaranie suboru\n");
+		}
+	}
+	return 0;
+}
+
+5/10
+Napíšte program, ktorý na obrazovku vypíše dĺžku najkratšieho riadka zo súboru list.txt. Ak sa súbor nepodarí otvoriť, program vypíše správu Chyba: otvaranie suboru Ak sa súbor nepodarí zatvoriť, program vypíše správu Chyba: zatvaranie suboru Každá správa je ukončená znakom konca riadku.
+
+Ukážkový súbor list.txt:
+Mily Jezisko,
+Na Vianoce si prajem bager.
+Janko
+Výstup pre ukážkový vstup:
+5 
+
+#include <stdio.h>
+
+int main()
+{	
+	int c,p=0,min=500;
+	FILE* f;
+	if ((f = fopen("list.txt", "r")) !=NULL)
+	{
+		while ((c=fgetc(f))!=EOF)
+		{
+			p++;
+			if (c=='\n')
+			{
+				if (p-1 < min) 
+				{
+					min = p - 1;
+					
+				}	
+				p = 0;
+			}
+			
+		}
+		if (p < min) min = p;
+		printf("%d", min);
+
+
+		if (fclose(f) == EOF)
+		{
+			printf("Chyba: zatvaranie suboru\n");
+		}
+	}
+	else
+	{
+		printf("Chyba: otvaranie suboru\n");
+		return 0;
+	}
+	
+	return 0;
+}
+
+

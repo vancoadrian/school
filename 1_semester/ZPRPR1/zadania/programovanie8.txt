@@ -1,0 +1,6 @@
+Doplňte zdrojový kód programu tak, aby správne pracoval s 3 premennými i, j a k typu int, a 3 ukazovateľmi p, q a r na typ int. Program načíta 3 celé čísla a zistí, či súčet prvých dvoch načítaných čísel sa rovná tretiemu. Ak sa rovná, program vypíše správu , inak napíše správu .
+
+Ukážka vstupu:
+10 5 15
+Výstup pre ukážkový vstup:
+Sucet OK

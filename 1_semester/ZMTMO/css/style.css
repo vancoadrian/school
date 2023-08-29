@@ -1,0 +1,325 @@
+*{padding: 0; margin: 0; box-sizing: border-box; font-family: ProximaNova, Arial, sans-serif;}
+
+body{
+	background-color: #e6e6e6;
+}
+
+html, body {
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+
+header{
+	background: #0AF;
+	height: 150px; 
+	position: relative;
+	background: linear-gradient( to top, #0AF 10%, cyan 90%);
+}
+
+.logo{
+	position: absolute; 
+	top: 50%;
+	left: 5%;
+	transform: translate(0,-50%);
+}
+.title{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+.language{
+	position: absolute;
+	top: 50%;
+	right: 5%;
+	transform: translate(0,-50%);
+}
+.language img{
+	-webkit-box-shadow: 9px 9px 13px 0px #000000; 
+	box-shadow: 9px 9px 13px 0px #000000;
+	border-radius: 10px 10px 10px 10px;
+}
+
+.navigation{
+	background-color: #666666;
+	height: 50px;
+	position: relative;
+
+}
+
+.navigation ul{
+	display: flex;
+	list-style: none;
+}
+
+.navigation li{
+	flex: 1;
+	text-align: center;
+}
+
+.navigation .active {
+	background: #333333;
+}
+
+.navigation a{
+	line-height: 50px;
+	text-transform: uppercase;
+	font-size: 10;
+	display: block;
+	color: white;
+	 text-decoration: none;
+}
+
+.navigation a:hover {
+  background-color: #404040;
+}
+
+.sideimage{
+	width:25%;
+	margin-left: 1.2%;;
+	margin-top: 20px;
+}
+
+.sideimage img {
+	vertical-align: top;
+	width: 49%;
+}
+
+.sideimagesolo{
+	width:25%;
+	margin-left: 1.2%;;
+	margin-top: 20px;
+}
+
+.sideimagesolo img {
+	vertical-align: top;
+	width: 100%;
+}
+
+.mainarticle{
+	width: calc(100% - 28%);
+	margin-left: 1.2%;;
+	letter-spacing: 2px;
+}
+
+footer {
+	display: table-row;
+	height: 0;
+}
+
+.container {
+	position: relative;
+	width: 100%;
+	height: 60px;
+	background: #222;
+	color: #fff;
+}
+
+footer .contacts {
+	position: absolute;
+	top: 50%;
+	left: 5%;
+	transform: translate(0, -50%);
+}
+
+footer .socialmedia {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.socialmedia img{
+	width: 40px;
+}
+
+footer .address {
+	text-align: right;
+	position: absolute;
+	top: 50%;
+	right: 5%;
+	transform: translate(0, -50%);
+} 
+
+.indent{
+	margin: 10px 0px;
+}
+
+ul{
+	list-style-type: none;
+}
+
+article{
+	margin-left: 1.2%;;
+	margin-top: 20px;
+}
+
+.parametersec article{
+	width: 40%;
+	letter-spacing: 2px;
+}
+
+
+table{
+	position: static;
+	margin-top: 20px;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.parametersec table {
+	width: 30%;
+	margin-left: 1.2%;;
+}
+
+thead, tfoot{
+	font-weight: bold;
+}
+
+tr{
+	border-bottom: 1px solid #AAAAAA;
+}
+
+td, th {
+	border-left: 5px solid #AAAAAA;
+	border-right: 5px solid #AAAAAA;
+	padding: 2px 6px;
+}
+
+.ib { 
+	display: inline-block; 
+	vertical-align: top;
+}
+
+.os{
+	display: inline-block;
+	width: 70%;
+}
+.os img{
+	float: left;
+	width: 27%;
+}
+.os article{
+	letter-spacing: 2px;
+	float: left;
+	width: 48%;
+}
+
+.os article img{
+	margin-right: 20px;
+}
+
+.parameter{
+	margin-top: 20px;
+	width: 75%;
+	display: inline-block;
+}
+
+.gallery .image-wrapper {
+	margin-top: 20px;
+	display: inline-block;
+	width: 40%;
+	vertical-align: top;
+	height: calc(100vh - 300px);
+}
+
+.gallery .image-wrapper img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+a{
+display: inline-block;
+}
+
+.gallery{
+	text-align: center;
+}
+
+.gallery div{
+	margin-left: 1.2%;;
+	margin-top: 20px;
+	display: inline-block;
+	width: 58%;
+	vertical-align: top;
+}
+
+.gallery img{
+	width: 200px;
+	height: 200px;
+	object-fit: contain;
+}
+
+.comment {
+	padding: 15px;
+	margin-left: 1.2%;border: 2px solid #aaa;
+	margin-top: 15px;
+}
+
+.comment:first-child { margin-top: 20px; }
+
+.comment h2 { margin-bottom: 5px; }
+
+form { margin: 40px 0; }
+
+form h1 { margin-bottom: 10px; }
+
+form input, form textarea { padding: 8px; }
+
+textarea {
+	width: 100%;
+	margin-top: 5px;
+}
+
+input[type="text"] { width: 40%; }
+
+input[type="submit"] { cursor: pointer; }
+
+.allaudio{
+	text-align: center;
+	margin-top: 50px;
+}
+
+.audio h1{
+	font-size: 120%;
+}
+
+.audio{
+	margin-left: 1.2%;;
+
+}
+
+video{
+	width: 100%;
+}
+
+.video{
+	position: static;
+	transform: translate(29%,0);
+	width: 40%;
+	margin-top: 20px;	
+}
+
+.gif{
+	margin-top: 20px;	
+	margin-left: 1.2%;;
+	width:25%;
+}
+
+.fr{
+	float: right;
+}
+
+.gif img{
+	width: 100%;
+}
+
+img.active { opacity: .6; }
+
+.allcomments {
+	height: 38vh;
+	overflow-y: scroll;
+}

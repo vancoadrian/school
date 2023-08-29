@@ -1,0 +1,253 @@
+4/1
+Napíšte program, ktorý načíta jedno reálne číslo predstavujúce teplotu v stupňoch Celzia. Výstupom programu je jedna zo správ Mrzne (ak je teplota menšia alebo rovná 0°), Normalna teplota (teplota je väčšia ako 0° a menšia ako 100°) alebo Vrie (teplota je väčšia alebo rovná 100°). Správa je ukončená znakom konca riadku. V programe nepoužite žiadnu if, ani if-else konštrukciu.
+
+Pomôcka: Použite podmienené výrazy.
+
+Ukážka vstupu:
+15
+Výstup pre ukážkový vstup:
+Normalna teplota
+
+
+#include <stdio.h>
+
+int main()
+{
+  float c,p;
+	scanf("%f", &c);
+	printf((c <= 0) ? "Mrzne\n" : ((c >= 100) ? "Vrie\n" : "Normalna teplota\n"));
+  return 0;
+}
+
+
+4/2
+
+Napíšte program, ktorý načíta v prvom riadku celé číslo N. Potom zo vstupu načíta N riadkov, každý obsahuje jedno celé číslo. Výstupom programu je jeden riadok obsahujúci počet načítaných čísel, ktoré patria do intervalu (0,100>. Výstup je ukončený znakom konca riadku.
+
+Ukážka vstupu:
+3
+5
+1000
+20
+Výstup pre ukážkový vstup:
+2
+Poznámka: Zamyslite sa ako by to bolo, ak by vopred nebol určený počet čísel na vstupe (číslo N), a mali by ste spracovať všetky čísla. Odpoveď: Treba si všímať návratovú hodnotu funkcie scanf.
+
+#include <stdio.h>
+
+int main()
+{
+	int c,r,i,j=0;
+	scanf_s("%d", &c);
+	for (i = 1; i <= c; i++) {
+		scanf_s("%d", &r);
+		if (r >= 0 && r <100) j++;
+		
+	}
+	printf_s("%d\n", j);
+	return 0;
+}
+
+4/3
+Napíšte program, ktorý načíta jeden riadok ukončený znakom konca riadku. Výstupom programu je jeden riadok obsahujúci 2 čísla oddelené jednou medzerou. Výstup je ukončený znakom konca riadku. Prvé číslo predstavuje počet malých a druhé číslo počet veľkých písmen.
+Ukážka vstupu:
+X*a+b+c4D-E-F1
+Výstup pre ukážkový vstup:
+3 4
+
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+  int i, m = 0, v = 0;
+  char s[100];
+  gets(s);
+
+  for( i = 0; i < strlen(s); i++ ){
+    if( s[i] >= 'a' && s[i] <= 'z' ) m++;
+    if( s[i] >= 'A' && s[i] <= 'Z' ) v++;
+  }
+
+  printf("%d %d", m, v);
+
+  return(0);
+}
+
+
+4/4
+Napíšte program, ktorý načíta dve celé čísla f, g oddelené medzerou. Vstup je ukončený znakom konca riadku. Výstupom je riadok obsahujúci všetky celé čísla deliteľné tromi a patriace intervalu <f, g>.
+
+Čísla na výstupe sú usporiadané od najmenšieho po najväčšie a sú oddelené vždy jednou medzerou. Výstup je ukončený koncom riadku.
+
+Ukážka vstupu:
+5 20
+Výstup pre ukážkový vstup:
+6 9 12 15 18
+
+#include <stdio.h>
+
+int main()
+{
+  int f, g, i=0;
+	scanf("%d %d", &f, &g);
+	for (i = f; i <= g; i ++)
+	{ if(i%3==0)
+	printf("%d ", i);
+	}
+
+  return 0;
+}
+
+4/5
+Predchádzajúci program upravte tak, že na vstupe program načíta tri celé čísla čísla f, g, d oddelené vždy jednou medzerou. Vstup je ukončený znakom konca riadku. Výstupom je riadok obsahujúci všetky celé čísla deliteľné číslom d a patriace intervalu <f, g>. Čísla na výstupe sú usporiadané od najmenšieho po najväčšie a sú oddelené vždy jednou medzerou. Výstup je ukončený koncom riadku.
+Ukážka vstupu:
+5 20 5
+Výstup pre ukážkový vstup:
+5 10 15 20
+
+#include <stdio.h>
+
+int main()
+{
+ int f, g,d, i=0;
+	scanf("%d %d %d", &f, &g, &d);
+	for (i = f; i <= g; i ++)
+	{ if(i%d==0)
+	printf("%d ", i);
+	}
+
+  return 0;
+}
+
+4/6
+Doplňte program na výpočet BMI z predchádzajúcich cvičení tak, že výpočet BMI a zatriedenie do kategórie vypočítajte v cycle pre skupinu ľudí. Na konci vypíšte počet ľudí pre príslušné kategórie.
+
+Vstup pozostáva z riadku obsahujúceho jedno celé číslo N predstavujúce počet ľudí. Potom nasleduje N riadkov obsahujúcich 2 reálne čísla predstavujúce výšku a hmotnosť jednotlivej osoby oddelené jednou medzerou a nasledované znakom konca riadku. Výstupom je N + 4 riadkov, z čoho prvých N riadkov pozostáva z vypočítaných BMI pre jednotlivých ľudí vypísaných na 2 desatinné miesta. Posledné 4 riadky obsahujú počet ľudí pre jednotlivé kategórie formátované podľa ukážkového výstupu.
+
+Ukážka vstupu:
+3
+170.0 58.5
+150.0 70.0
+180.0 75.4
+Výstup pre ukážkový vstup:
+20.24
+31.11
+23.27
+Podvaha: 0
+Normalna hmotnost: 2
+Nadvaha: 0
+Obezita: 1
+
+
+#include <stdio.h>
+
+int main()
+{
+	int	n,i,obezita = 0,nadvaha = 0,normal = 0,podvaha = 0;
+	float hmotnost, vyska, BMI;
+	
+	scanf_s("%d", &n);
+
+	for (i = 0; i < n; i++)
+	{
+		scanf_s("%f %f", &vyska, &hmotnost);
+		BMI = hmotnost / (vyska / 100 * vyska / 100);
+		printf("\n%.2f \n", BMI);
+		if (BMI > 30) obezita++;
+		else if (BMI > 25 && BMI <= 30) nadvaha++;
+		else if (BMI <= 25 && BMI > 18.5)normal++;
+		else podvaha++;
+	}
+	printf("Podvaha: %d\n",podvaha);
+	printf("Normalna hmotnost: %d\n",normal);
+	printf("Nadvaha: %d\n",nadvaha);
+	printf("Obezita: %d\n",obezita);
+	return 0;
+}
+
+
+4/7
+Napíšte program, ktorý načíta celé číslo N nasledované znakom konca riadku. Potom načíta N reálnych čísel, každé nasledované znakom konca riadku. Výstupom programu sú dva riadky, prvý bude obsahovať text Minimum: nasledovaný medzerou a minimom z N načítaných čísel vypísanom na 2 desatinné miesta. Druhý riadok výstupu bude obsahovať text Maximum: nasledovaný medzerou a maximom z načítaných čísel vypísanom na 2 desatinné miesta a ukončený znakom konca riadku.
+
+Ukážka vstupu:
+4
+5.5
+2.78
+15.451
+6
+Výstup pre ukážkový vstup:
+Minimum: 2.78
+Maximum: 15.45
+
+#include <stdio.h>
+
+int main()
+{
+	int i, n;
+	scanf_s("%d", &n);
+
+	float r, min, max;
+
+	for (i = 0; i < n; i++) {
+		scanf_s("%f", &r);
+
+		if (i == 0) {
+			min = r;
+			max = r;
+		}
+
+		if (r < min) min = r;
+		if (r > max) max = r;
+	}
+
+	printf("Minimum: %.2f\n", min);
+	printf("Maximum: %.2f\n", max);
+
+	return 0;
+}
+
+
+4/8
+Napíšte program, ktorý načíta celé číslo n a potom postupne načítava n reálnych čísel. Výstupom programu je súčet prvého čísla a všetkých tých čísel, pre ktoré platí, že sú väčšie ako priemer predchádzajúcich načítaných čísel. Súčet je vypísaný na 2 desatinné miesta a ukončený znakom konca riadku.
+
+V ukážkovom príklade sa započítajú čísla: 1.2 (ako prvé číslo), 5.0 (väčšie ako priemer predchádzajúcich 1.2) a 6.3 (väčšie ako (1.2 + 5 + 2.1) /3 = 2.77). Ich súčet je výstupom programu.
+
+Ukážka vstupu:
+5
+1.2
+5
+2.1
+6.3
+3.1
+Výstup pre ukážkový vstup:
+12.50
+
+#include <stdio.h>
+
+int main()
+{
+	int i, n;
+	float r, s, p, x;
+
+	scanf_s("%d", &n);
+
+	for (i = 1; i <= n; i++) {
+		scanf_s("%f", &r);
+
+		if (i == 1) {
+			s = r;
+			p = r;
+			x = r;
+		}
+		else {
+			s += r;
+			p = s / i;
+		}
+
+		if (r > p) x += r;
+	}
+
+	printf("%.2f", x);
+
+	return 0;
+}

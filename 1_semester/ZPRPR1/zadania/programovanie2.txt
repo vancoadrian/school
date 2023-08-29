@@ -1,0 +1,97 @@
+2-1
+
+Napíšte program, ktorı vypoèíta objem kvádra. Vstupom je jeden riadok obsahujúci tri celé èísla oddelené medzerami. Riadok je ukonèenı znakom konca riadku. Vıstupom je jeden riadok obsahujúci vypoèítanı objem kvádra a ukonèenı znakom konca riadku.
+Ukáka vstupu:
+3 2 1
+Vıstup pre ukákovı vstup:
+6
+
+#include <stdio.h>
+
+int main()
+{
+	int cis1,cis2,cis3;
+	scanf("%d %d %d",&cis1,&cis2,&cis3);
+	printf("\n%d",cis1*cis2*cis3);
+	return 0;
+}
+
+2-2
+
+Napíšte program na vıpoèet obvodu a obsahu kruhu. Vstupom je jeden riadok obsahujúci jedno reálne èíslo predstavujúce polomer kruhu. Riadok je ukonèenı znakom konca riadku. Vıstupom je jeden riadok obsahujúci správu: Kruh s polomerom r: obvod = o, obsah = s, kde r je polomer, o je vypoèítanı obvod a s je vypoèítanı obsah kruhu. Všetky reálne èísla na vıstupe vypíšte na 2 desatinné miesta.
+Ukáka vstupu:
+1.0
+Vıstup pre ukákovı vstup:
+Kruh s polomerom 1.00: obvod = 6.28, obsah = 3.14
+
+#include <stdio.h>
+#define M_PI 3.14159265359
+int main()
+{
+	float r;
+	scanf("%f",&r);
+	printf("\nKruh s polomerom %.2f: obvod = %.2f, obsah = %.2f",r,2*M_PI*r,M_PI*r*r);
+
+	return 0;
+}
+
+2-3
+
+Napíšte program, ktorı naèíta ¾ubovo¾né èíslo a vypíše to isté èíslo s 20%-nou daòou. Pokúste sa program zapísa bez pouitia príkazu priradenia. Na vstupe naèítajte celé èíslo nasledované koncom riadku. Vıstup pozostáva z dvoch riadkov, kadı nasledovanı koncom riadku. V prvom riadku je Cena bez dane: nasledovaná naèítanım èíslom. V druhom riadku je Predajna cena s danou 20%: nasledovaná cenou s DPH zaokrúhlenou na jedno desatinné miesto. Cenu bez dane na vıstupe vypisujte na platnı poèet desatinnıch miest.
+Ukáka vstupu:
+10
+Vıstup pre ukákovı vstup:
+Cena bez dane: 10
+Predajna cena s danou 20%: 12.0
+
+#include <stdio.h>
+
+int main()
+{
+	int cislo;
+	scanf("%d",&cislo);
+	printf("\nCena bez dane: %d \n",cislo);
+	printf("Predajna cena s danou 20%%: %.1f \n",(float)cislo*1.2);
+	return 0;
+}
+
+2-4
+Napíšte program, ktorı vypoèíta body mass index (BMI) pod¾a vzorca: BMI = (hmotnos v kg) / (vıška v m)2 Na vstupe naèítajte 2 reálne èísla s jednım desatinnım miestom predstavujúce vıšku v cm a hmotnos v kg oddelené jednou medzerou a nasledované znakom konca riadku. Vıstupom je jeden riadok obsahujúci správu BMI: nasledovanú jednou medzerou, vypoèítanou hodnotou body mass index zaokrúhlenou na tri desatinné miesta a znakom konca riadku.
+Ukáka vstupu:
+170.0 58.8
+Vıstup pre ukákovı vstup:
+BMI: 20.346
+
+#include <stdio.h>
+
+int main()
+{
+	float hmotnost,vyska,BMI;
+	scanf("%f %f",&hmotnost,&vyska);
+	BMI=hmotnost/(vyska/100*vyska/100);
+	printf("\nBMI: %.3f \n",BMI);
+	return 0;
+}
+
+2-5
+Uvaujte blok n rodinnıch domov na jednej ulici s rovnako ve¾kımi záhradami. Kadá záhrada má obdånikovı tvar s rozmermi a, b (v metroch). Strana a je strana záhrady do ulice, stranou b sa susedné záhrady dotıkajú a zdielajú spoloènı plot (Obr. 1). Napíšte program, ktorı vypoèíta, ko¾ko metrov pletiva je potrebnıch na oplotenie n záhrad, prièom n-1 strán b je spoloènıch.
+
+
+Na vstupe naèítajte 3 celé kladné èísla predstavujúce poèet záhrad n a strany a a b oddelené vdy jednou medzerou a nasledované znakom konca riadku. Vıstupom je jeden riadok obsahujúci správu: Na zahrady pouzijeme x metrov pletiva. Správa je ukonèená znkom konca riadku a x predstavuje vypoèítanú dåku pletiva.
+
+Ukáka vstupu:
+5 3 4
+Vıstup pre ukákovı vstup:
+Na zahrady pouzijeme 54 metrov pletiva.
+
+#include <stdio.h>
+
+int main()
+{
+ int n,a,b,x;
+ scanf("%d %d %d",&n,&a,&b);
+ x=2*n*(a+b)-(n-1)*b;
+ printf("\nNa zahrady pouzijeme %d metrov pletiva.\n",x);
+ return 0;
+}
+

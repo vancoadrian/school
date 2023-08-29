@@ -1,0 +1,1439 @@
+// uloha7-1.c -- Adrián Vančo, 30.3.2020 12:56
+Uvažujte príklad z prednášky na kontrolu, či sú riadky a stĺpce sudoku správne vyplnené (program 05p01.cpp).
+
+Doplňte program o funkciu skontrolujStvorec(), ktorá skontroluje štvorec 3x3 z matice. Funkcia vráti hodnotu 1, ak vo štvorci sú len čísla od 1 po 9 a to každé práve raz. Inak vráti hodnotu 0. Vhodne zvoľte argumenty funkcie. Tiež doplňte časť funkcie main(), kde budete funkciu volať a skontrolujete všetkých 9 štvorcov. Upravte program tak, aby vypísal správu Sudoku ok alebo Zle sudoku nasledované znakom konca riadku.
+
+Ukážka vstupu:
+4 3 5 2 6 9 7 8 1
+6 8 2 5 7 1 4 9 3
+1 9 7 8 3 4 5 6 2
+8 2 6 1 9 5 3 4 7
+3 7 4 6 8 2 9 1 5
+9 5 1 7 4 3 6 2 8
+5 1 9 3 2 6 8 7 4
+2 4 8 9 5 7 1 3 6
+7 6 3 4 1 8 2 5 9
+
+Výstup pre ukážkový vstup:
+Sudoku ok
+
+
+// kontrola sudoku: riadky a stlpce
+#include <stdio.h>
+#include <stdlib.h>
+#define N 9 // rozmer sudoku
+#define SUBOR "sudoku.txt"
+
+void nacitaj(int sudoku[][N]);
+int skontrolujRiadok(int sudoku[][N], int riadok);
+int skontrolujStlpec(int sudoku[][N], int stlpeca);
+int skontrolujStvorec(int sudoku[][N], int stvorec);
+
+int main() {
+	int sudoku[N][N];			// dvojrozmerne pole pre sudoku
+	int i;
+		
+	nacitaj(sudoku);
+	
+	// kontrola riadkov
+	for (i=0; i<N; i++)
+		if (!skontrolujRiadok(sudoku, i))
+			break;
+	if (i<N) {
+		printf("Riadok %d nie je spravne vyplneny.\n", i);
+		return 0;
+	}		
+	
+	// kontrola stlpcov
+	for (i=0; i<N; i++)
+		if (!skontrolujStlpec(sudoku, i))
+			break;
+	if (i<N){
+		printf("Stlpec %d nie je spravne vyplneny.\n", i);
+		return 0;
+	}
+
+
+	for (i=0; i<N; i++)
+		if (!skontrolujStvorec(sudoku,i))
+			break;
+	if (i<N){
+		printf("Zle sudoku\n");
+		return 0;
+	}
+	else
+		printf("Sudoku ok\n");
+	return 0;
+}
+
+// funkcia nacita sudoku zo suboru
+void nacitaj(int sudoku[][N]) {
+	FILE *f;
+	int i, j;
+	
+	if ((f = fopen(SUBOR, "r")) == NULL) {
+		printf("Nepodarilo sa otvorit subor\n");
+		exit(0);
+	}
+	for (i=0; i<N; i++) 
+		for (j=0; j<N; j++)
+			fscanf(f, "%d", &sudoku[i][j]);
+	
+	fclose(f);
+}
+
+// funkcia kontroluje stvorec sudoku
+int skontrolujStvorec(int sudoku[][N], int stvorec) {
+	int i, j, k=1;
+	int kontrola[N] = {0};	// pole pomocou ktoreho kontrolujeme stlpec
+
+	for(i=(stvorec/3*3);i<3+(stvorec/3)*3;i++){
+		for(j=stvorec%3*3;j<3 + stvorec%3*3;j++){
+		//	printf("%d ",sudoku[i][j]);
+			if (sudoku[i][j] < 1 || sudoku[i][j] > 9 || 
+			kontrola[sudoku[i][j]-1] == k) 
+				return 0;
+			kontrola[sudoku[i][j]-1] = k;
+		}
+		//printf("\n");
+	}
+	return 1;
+	}
+	
+
+// funkcia kontroluje riadok sudoku dany argumentom riadok
+int skontrolujRiadok(int sudoku[][N], int riadok) {
+	int i, k=1;
+	int kontrola[N] = {0};	// pole pomocou ktoreho kontrolujeme riadok
+	for(i=0; i<N; i++) {
+		if (sudoku[riadok][i] < 1 || sudoku[riadok][i] > 9 || 
+			kontrola[sudoku[riadok][i]-1] == k) 
+			return 0;
+		kontrola[sudoku[riadok][i]-1] = k;
+	}
+	return 1;
+}
+
+// funkcia kontroluje stlpec sudoku dany argumentom stlpec
+int skontrolujStlpec(int sudoku[][N], int stlpec) {
+	int i, k=1;
+	int kontrola[N] = {0};	// pole pomocou ktoreho kontrolujeme stlpec
+	
+	for(i=0; i<N; i++) {
+		if (sudoku[i][stlpec] < 1 || sudoku[i][stlpec] > 9 || 
+			kontrola[sudoku[i][stlpec]-1] == k) 
+			return 0;
+		kontrola[sudoku[i][stlpec]-1] = k;
+	}
+	return 1;
+}
+
+
+
+// uloha7-2.c -- Adrián Vančo, 6.4.2020 00:49
+Definujte štruktúru DATUM pre dátum (deň, mesiac, rok) a napíšte funkciu pocetDni(), ktorá dostane 2 dátumy a vráti počet dní medzi týmito dátumami. Neuvažujte priestupné roky. Funkciu použite v programe, ktorý načíta 2 dátumy a vypíše počet dní medzi prvým a druhým dátumom. Ak je druhý dátum nižší ako prvý, program vypíše správu Vymente datumy.
+
+Ukážka vstupu:
+1.4.2020
+5.4.2020
+Výstup pre ukážkový vstup:
+4
+
+
+#include <stdio.h>
+#include <string.h>
+
+
+typedef struct {
+  int den;
+  int mesiac;
+  int rok;
+} DATUM;
+
+int pocetDni(DATUM prvy,DATUM druhy);
+
+int pocetDni(DATUM prvy, DATUM druhy){
+  int d=0,m_d=0,r_d=0;
+  d=druhy.den-prvy.den;
+  r_d=druhy.rok*365-prvy.rok*365;
+  d+=r_d;
+for(int druhy_mesiac=druhy.mesiac;druhy_mesiac>0;druhy_mesiac--)
+  if(druhy_mesiac==2){
+    //m_d+=28;
+    m_d+=30;
+  } 
+  else if (druhy_mesiac==4 || druhy_mesiac==6 || druhy_mesiac==9 || druhy_mesiac==11){
+    m_d+=30;
+  }
+  else{
+    //m_d+=31;
+    m_d+=30;
+  }
+//printf("achhhh  %d\n",m_d);
+
+for(int prvy_mesiac=prvy.mesiac;prvy_mesiac>0;prvy_mesiac--)
+  if(prvy_mesiac==2){
+    //m_d-=28;
+    m_d-=30;
+  } 
+  else if (prvy_mesiac==4 || prvy_mesiac==6 || prvy_mesiac==9 || prvy_mesiac==11){
+    m_d-=30;
+  }
+  else{
+    //m_d-=31;
+    m_d-=30;
+  }
+
+  d+=m_d;
+  if (d<0) return -1;
+  return d;
+}
+
+int main()
+{
+  int rozdiel;
+  DATUM prvy, druhy;
+  scanf("%d %*c %d %*c %d",&prvy.den, &prvy.mesiac, &prvy.rok);
+  scanf("%d %*c %d %*c %d", &druhy.den, &druhy.mesiac, &druhy.rok);
+  
+  rozdiel=pocetDni(prvy, druhy);
+  if (rozdiel == -1) {printf("Vymente datumy\n"); return 0;}
+  printf("%d\n",rozdiel);
+  return 0;
+}
+
+
+// uloha7-3.c -- Adrián Vančo, 6.4.2020 01:26
+Uvažujte príklad s poľom záznamov o zamestnancoch z prednášky (program 05p08.cpp).
+
+Napíšte funkciu vymaz(), ktorá vymaže všetky záznamy pre zamestnancov s platom menším ako argument plat typu double. Vhodne zvoľte ďalšie argumenty a návratovú hodnotu. Vymazanie jedného záznamu z poľa znamená, že záznamy za vymazaným záznamom sa posunú na pozíciu o 1 menšiu. Hlavnú funkciu zmeňte tak, že načíta záznamy zo súboru, načíta reálne číslo, vymaže záznamy pre zamestnancov s platom menším ako zadané reálne číslo a vypíše záznamy, ktoré v poli zostali.
+
+Ukážka vstupu:
+2000.00
+Súbor zamestnanci.txt:
+Janko_Hrasko Pekna 4 2150
+Anicka_Mala Agatova 6 1920
+Ferko_Novy Na_aleji 7 2380
+Lucka_Krasna Hlavna 27 1364
+Misko_Zeleny Hviezdoslavova 2 2316
+Zuzka_Hraskovie Skolska 1 1237
+Janka_Dobra Stromova 12 1642
+Matko_Maslovy Hlavna 3 1318
+Výstup pre ukážkový vstup:
+Janko_Hrasko Pekna 4 2150
+Ferko_Novy Na_aleji 7 2380
+Misko_Zeleny Hviezdoslavova 2 2316
+
+
+// vypis zamestnanca (jeho adresy) s najvyssim platom
+// vypis zamestnanca (jeho adresy) s najdlhsim menom
+// vyuzitie struktury v strukture
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define N 100  // max. pocet struktur v poli
+#define SUBOR "zamestnanci.txt"
+
+// typ pre adresu
+typedef struct {
+  char ulica[30];
+  int cislo;
+} ADRESA;
+
+// typ pre osobu (zamestnanca)
+typedef struct  {
+  char meno[30];
+  ADRESA adresa;
+  double plat;
+} OSOBA;
+
+// nacitanie zamestnancov zo suboru
+int nacitaj(OSOBA zam[]) {
+  int n=0;
+  FILE *f;
+	
+  if((f = fopen(SUBOR, "r")) == NULL) {
+    printf("Nepodarilo sa otvorit subor\n");
+    return 0;
+  }
+  while(n<N && fscanf(f, "%s", zam[n].meno) == 1) {
+    fscanf(f, "%s", zam[n].adresa.ulica);
+    fscanf(f, "%d", &zam[n].adresa.cislo);
+    fscanf(f, "%lf", &zam[n].plat);
+    n++;
+  }
+  fclose(f);
+  return n;
+}
+
+void vymaz(OSOBA ludia[],int *n){
+  double orez;
+  int i, nevymazane=0;
+  scanf("%lf",&orez);
+  char nullStr[30] = {"\0"};
+  for (i = 0; i < *n; i++) {
+    if(ludia[i].plat <= orez) {
+      strcpy(ludia[i].meno, nullStr);
+      ludia[i].plat = '\0';
+      strcpy(ludia[i].adresa.ulica, nullStr);
+      ludia[i].adresa.cislo = '\0';
+      continue;
+    }
+    if(i>nevymazane){
+      ludia[nevymazane] = ludia[i];
+    }
+    nevymazane++;
+  }
+  
+  (*n)=nevymazane;
+}
+
+int main() {
+  int i, n;//, kto = 0;
+  //double max = 0.0, pom;
+  OSOBA ludia[N];
+	
+  n = nacitaj(ludia); // n je pocet prvkov pola so zamestnancami
+	
+  // najdenie zamestnanca s najvyssim platom
+  /*
+  for (i = 0; i < n; i++) {
+    if((pom = ludia[i].plat) > max) {
+      max = pom;
+      kto = i;
+    }
+  }
+  */
+  //printf("Zamestnanec s najvyssim platom %s byva: %s %d\n",
+    //ludia[kto].meno, ludia[kto].adresa.ulica, ludia[kto].adresa.cislo);
+		
+  //OSOBA *p_kto = ludia, *p_pom;
+  //int d, maxd = strlen(p_kto->meno);
+  // najdenie zamestnanca s najdlhsim menom
+  /*
+  for (p_pom = ludia + 1; p_pom < ludia + n; p_pom++) {
+    if ((d = strlen(p_pom->meno)) > maxd) {
+      p_kto = p_pom;
+      maxd = d;
+    }
+  }
+*/
+  //printf("Zamestnanec s najdlhsim menom %s byva: %s %d\n",
+    //p_kto->meno, p_kto->adresa.ulica, p_kto->adresa.cislo);	
+
+vymaz(ludia ,&n);
+//printf("\n nko %d",n);
+ for (i = 0; i < n; i++) {
+   printf("%s %s %d %.0lf\n",
+    ludia[i].meno, ludia[i].adresa.ulica, ludia[i].adresa.cislo, ludia[i].plat);
+  }
+  return 0;
+}
+
+
+// uloha7-4.c -- Adrián Vančo, 22.4.2020 00:54
+Uvažujte záznamy cestovnej kancelárie o predaných zájazdoch, kde sa uchovávajú položky: identifikačné číslo záznamu, meno zákazníka, názov destinácie, rok nástupu na pobyt a dĺžku pobytu v dňoch. Nepredpokladajte prácu s reťazcami dlhšími ako 100 znakov.
+
+Definujte typ ZAJAZD ako štruktúru pre záznamy o predaných zájazdoch.
+Definujte statické pole záznamov o zájazdoch zajazdy s najviac 100 záznamami.
+Napíšte funkciu nacitaj, ktorá načíta záznamy, pokým nie je zadané záporné identifikačné číslo. Každá položka je na vstupe oddelená znakom konca riadku. Ošetrite možnosť presiahnutia dĺžky poľa. Zvoľte vhodné argumenty tak, aby ste vo funkcii nevyužívali žiadne globálne premenné.
+Napíšte funkciu vypis, ktorá vypíše všetky záznamy, každý záznam v jednom riadku, pričom položky sú v riadku oddelené vždy jednou medzerou. Posledný riadok výstupu je nasledovaný znakom konca riadku. Zvoľte vhodné argumenty tak, aby ste vo funkcii nevyužívali žiadne globálne premenné.
+Napíšte funkciu najnovsie, ktorá bude pracovať s poľom záznamov. Vypíše najväčšiu dĺžku zájazdov z posledného roka, pre ktorý boli zájazdy predané, a počet všetkých zájazdov z posledného roka. Posledný rok, pre ktorý boli zájazdy predané, je potrebné zistiť, nie je to nutne rok 2020. Výpis predstavuje jeden riadok ukončený znakom konca riadku a obsahujúci 2 celé čísla oddelené jednou medzerou. Zvoľte vhodné argumenty tak, aby ste vo funkcii nevyužívali žiadne globálne premenné.
+Napíšte program, v ktorom použijete definície a funkcie podľa predchádzajúcich bodov. Program pomocou funkcií najprv načíta záznamy, vypíše záznamy a nakoniec vypíše najväčšiu dĺžku zájazdov z posledného roka, pre ktorý boli zájazdy predané, a počet všetkých zájazdov z posledného roka.
+Ukážka vstupu:
+1
+Lojzo
+Rim
+2012
+7
+2
+Ferko
+Madeira
+2010
+12
+3
+Anicka
+Kreta
+2012
+10
+-1
+Výstup pre ukážkový vstup:
+1 Lojzo Rim 2012 7
+2 Ferko Madeira 2010 12
+3 Anicka Kreta 2012 10
+10 2
+
+
+
+#include <stdio.h>
+#define N 100  // max. pocet struktur v poli
+typedef struct{
+  int id_zaznamu;
+  char meno[101];
+  char destinacia[101];
+  int rok_nastupu;
+  int dlzka_pobytu;
+} ZAJAZD;
+
+int nacitaj(ZAJAZD zaz[]){
+  int n=0,id;
+  scanf("%d", &id);
+  while(n<N && id >= 0) {
+    //printf("idcko %d\n",id);
+    zaz[n].id_zaznamu=id;
+    scanf("%100s", zaz[n].meno); 
+    scanf("%100s", zaz[n].destinacia);
+    scanf("%d", &zaz[n].rok_nastupu);
+    scanf("%d", &zaz[n].dlzka_pobytu);
+    n++;
+    scanf("%d", &id);
+  }
+
+  return n;
+}
+
+void vypis(ZAJAZD zaz[],int n){
+  int i;
+  for(i=0;i<n;i++)
+  {
+    printf("%d %s %s %d %d\n",zaz[i].id_zaznamu, zaz[i].meno, zaz[i].destinacia, zaz[i].rok_nastupu, zaz[i].dlzka_pobytu);
+  }
+}
+
+void najnovsie(ZAJAZD zaz[],int n){
+  int i, posledny_rok = 0, zajazdy_posledneho_roku = 0, najviac_dni = 0;
+  for(i=0;i<n;i++)
+  {
+    if(zaz[i].rok_nastupu>posledny_rok)
+    posledny_rok=zaz[i].rok_nastupu;
+  }
+  for(i=0;i<n;i++)
+  {
+    if(zaz[i].rok_nastupu==posledny_rok){
+      zajazdy_posledneho_roku++;
+      if(zaz[i].dlzka_pobytu>najviac_dni)
+        najviac_dni=zaz[i].dlzka_pobytu;
+    }
+  }
+  //printf("%d ",posledny_rok);
+  printf("%d %d\n", najviac_dni, zajazdy_posledneho_roku);
+}
+
+int main()
+{
+  int pocet;
+  ZAJAZD zaznam[N];
+  pocet=nacitaj(zaznam);
+  // sem napis svoje riesenie
+  vypis(zaznam,pocet);
+  najnovsie(zaznam,pocet);
+  return 0;
+}
+
+
+
+
+
+// uloha8-1.c -- Adrián Vančo, 17.4.2020 12:38
+Práca s poľom štruktúr. Vytvorte pole záznamov o tovare v potravinách. Jednotlivé záznamy majú obsahovať názov tovaru, výrobcu, množstvo a jednotkovú cenu. Názov tovaru aj výrobca budú uvedené jedným slovom. Množstvo a cena sú desatinné čísla. Zoznam udržiavajte stále usporiadaný podľa názvov tovarov.
+
+Umožnite používateľovi pridať nový tovar a vypísať aktuálny tovar usporiadaný podľa názvu. Zo štandardného vstupu načítajte a spracujte nasledujúce príkazy (príkazy čítajte až do konca vstupu):
+
+vloz nazov vyrobca mnozstvo cena -- Načíta atribúty tovaru a vloží ho do poľa. Ak je pole krátke, treba pole zväčšiť (najlepšie na dvojnásobnú dĺžku). Pri pridávaní záznamu do poľa, je potrebné nájsť miesto, kam sa má nový záznam pridávať. Všetky záznamy, od tejto pozície ďalej, posunúť na pozíciu o jednu vyššie a na voľné miesto zapísať nový záznam.
+vypis -- Vypíše prvky pola podľa ukážky nižšie.
+Pomôcka:
+
+Ukážka vstupu:
+vloz JablkaJonagold AppleVillage 10 0.35
+vloz HruskyCervene NovoFruct 15 0.30
+vypis
+vloz Ananas BonoFruct 30 1.29
+vloz Pomarance VitaC 25 0.69
+vypis
+Výstup pre ukážkový vstup:
+Nazov=HruskyCervene, Vyrobca=NovoFruct, Mnozstvo=15.000000, JednotkovaCena=0.300000
+Nazov=JablkaJonagold, Vyrobca=AppleVillage, Mnozstvo=10.000000, JednotkovaCena=0.350000
+
+Nazov=Ananas, Vyrobca=BonoFruct, Mnozstvo=30.000000, JednotkovaCena=1.290000
+Nazov=HruskyCervene, Vyrobca=NovoFruct, Mnozstvo=15.000000, JednotkovaCena=0.300000
+Nazov=JablkaJonagold, Vyrobca=AppleVillage, Mnozstvo=10.000000, JednotkovaCena=0.350000
+Nazov=Pomarance, Vyrobca=VitaC, Mnozstvo=25.000000, JednotkovaCena=0.690000
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define VELKOST 4
+#define NNAZOV 1000
+typedef struct{
+  char *nazov;
+  char *vyrobca;
+  float mnozstvo;
+  float cena;
+} TOVAR;
+
+void vypis(TOVAR *produkty,int n){
+  int i;
+  for (i=0;i<n;i++)
+    printf("Nazov=%s, Vyrobca=%s, Mnozstvo=%.6f, JednotkovaCena=%.6f\n",produkty[i].nazov, produkty[i].vyrobca, produkty[i].mnozstvo, produkty[i].cena);
+  printf("\n");
+}
+
+int komparator(const void* p, const void* q) 
+{ 
+    return strcmp(((TOVAR*)p)->nazov, 
+                  ((TOVAR*)q)->nazov); 
+} 
+
+void vloz(TOVAR **produkty, int *pocet, int *velkost){
+  char nazov_produktu[NNAZOV], vyrobca_produktu[NNAZOV];
+  scanf("%s %s",nazov_produktu,vyrobca_produktu);
+  if (*velkost==0){
+    *produkty = (TOVAR *) malloc(VELKOST * sizeof(TOVAR));
+    *velkost = VELKOST;
+  }
+  else if ((*pocet+1)>*velkost){
+    *velkost += VELKOST; 
+    *produkty = (TOVAR *) realloc(*produkty, *velkost * sizeof(TOVAR));
+  }
+  (*produkty)[*pocet].nazov = (char *) malloc(strlen(nazov_produktu)+1);
+  strcpy((*produkty)[*pocet].nazov, nazov_produktu);
+  (*produkty)[*pocet].vyrobca = (char *) malloc(strlen(vyrobca_produktu)+1);
+  strcpy((*produkty)[*pocet].vyrobca, vyrobca_produktu);
+  scanf ("%f %f",&(*produkty)[*pocet].mnozstvo, &(*produkty)[*pocet].cena);
+  (*pocet)++;
+  qsort(*produkty, (*pocet), sizeof(TOVAR), komparator);
+}
+
+int main()
+{
+  TOVAR *produkty=NULL;
+  int n=0, velkost=0;
+  char s[100];
+  
+  //printf("%s",s);
+  while(scanf("%s",s)==1){
+    if (s[0]=='v' && s[1]=='l') {
+      vloz(&produkty, &n, &velkost);
+      }
+   if (s[0]=='v' && s[1]=='y') {
+     //printf("noup\n");
+     vypis(produkty, n);
+     }
+  // sem napis svoje riesenie
+  }
+  return 0;
+}
+
+
+// uloha8-2.c -- Adrián Vančo, 17.4.2020 12:38
+Uvažujte časť príkladu z prednášky na vytvorenie knižnice (program 06p01.cpp), kde berieme do úvahy len načítanie knižnice.
+
+Doplňte hlavný program o pole oblubene – dynamické pole ukazovateľov na prvky knižnice a funkcie vytvorOblubene() a vypisOblubene().
+
+a. Funkcia vytvorOblubene() dostane cez argumenty knižnicu a jej veľkosť. Načíta počet obľúbených kníh o a alokuje príslušne dlhé pole oblubene. Potom načítava o názvov kníh a pre každý názov knihy, ktorý sa podarí nájsť v knižnici, priradí ukazovateľ na prvú takú nájdenú knihu v knižnici. Ak sa v knižnici kniha s daným názvom nenachádza, nastavených ukazovateľov v poli oblubene bude menej ako je jeho dĺžka. Funkcia cez návratovú hodnotu vráti ukazovateľ na dynamické pole oblubene a cez argumenty vráti dĺžku dynamického poľa oblubene a počet skutočne zapísaných odkazov na knihy v knižnici.
+
+b. Funkcia vypisOblubene() dostane ukazovateľ na dynamické pole oblubene a vypíše obľúbené knihy, každú v samostatnom riadku vo formáte meno a priezvisko autora, dvojbodka, názov autora a v zátvorke rok vydania.
+
+Doplňte volanie funkcií vytvorOblubene() a vypisOblubene() do hlavného programu.
+
+Ukážkový súbor kniznica.txt:
+
+Pippi_dlha_pancucha Astrid Lindgren 1945
+Journey Aaron Becker 2013
+Kvak_a_Clup_su_kamarati Arnold Lobel 1970
+1984 George Orwell 1950
+Akcantyrok Roald Dahl 2014
+Ukážkový vstup:
+
+3
+1984
+Farma_zvierat
+Journey
+Ukážkový výstup:
+
+George Orwell: 1984 (1950)
+Aaron Becker: Journey (2013)
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define NSTR 50 /* dlzka retazcov znakov */
+#define NNAZOV 1000 /* maximalna dlzka retazca znakov pri nacitavani nadpisu */
+#define NBLOK 3
+#define SUBOR "kniznica.txt"
+
+typedef struct {
+	char meno[NSTR];
+	char priezvisko[NSTR];
+} AUTOR;
+
+typedef struct {
+	char* nazov;
+	AUTOR autor;
+	int rok;
+} KNIHA;
+
+
+KNIHA* nacitaj(KNIHA* kniznica, int* pocet, int* velkost) {
+	FILE* f;
+	char nazovKnihy[NNAZOV];
+	int i;
+
+	if ((f = fopen(SUBOR, "r")) == NULL) {
+		printf("Nepodarilo sa otvorit subor\n");
+		return kniznica;
+	}
+	i = 0;
+	while (fscanf(f, "%s", nazovKnihy) == 1) {
+		// ak treba akokovat alebo realokovat
+		if (i >= *velkost) {
+			if (*velkost == 0)
+				kniznica = (KNIHA*)malloc(NBLOK * sizeof(KNIHA)); // kniznica nie je vytvorena
+			else  // kniznicu treba zvacsit
+				kniznica = (KNIHA*)realloc(kniznica, (*velkost + NBLOK) * sizeof(KNIHA));
+			*velkost += NBLOK;
+		}
+		kniznica[i].nazov = (char*)malloc(strlen(nazovKnihy) + 1);
+		strcpy(kniznica[i].nazov, nazovKnihy);
+		fscanf(f, "%s", kniznica[i].autor.meno);
+		fscanf(f, "%s", kniznica[i].autor.priezvisko);
+		fscanf(f, "%d", &kniznica[i].rok);
+		i++;
+	}
+	fclose(f);
+	*pocet = i;
+	return kniznica;
+}
+
+KNIHA* vytvorOblubene(KNIHA* kniznica, int velkost, int n, int* velkost_oblubene, int* poc_oblubene) {
+	int o, i, j;
+	KNIHA* oblubene=NULL;
+	char hladaj[NNAZOV];
+	scanf("%d", &o);
+	*velkost_oblubene = o;
+	oblubene = (KNIHA*)malloc(o * sizeof(KNIHA));
+	for (i = 0; i < o; i++) {
+		scanf("%s", hladaj);
+		for (j = 0; j < n; j++) {
+			int result = strcmp(kniznica[j].nazov, hladaj);
+			if (result == 0) {
+				oblubene[i] = kniznica[j];
+				(*poc_oblubene)++;
+			}
+		}
+		//printf("%s\n",hladaj);
+		//oblubene[i] = ;
+	}
+	return oblubene;
+}
+
+
+void vypisOblubene(KNIHA* oblubene, int velkost_oblubene) {
+	int i;
+	for (i = 0; i < velkost_oblubene; i++) {
+		printf("%s %s: %s (%d)\n", oblubene[i].autor.meno, oblubene[i].autor.priezvisko, oblubene[i].nazov, oblubene[i].rok);
+	}
+}
+
+int main() {
+	int velkost_oblubene, poc_oblubene=0;
+	KNIHA* kniznica = NULL, * oblubene;
+
+	int n = 0, velkost = 0;
+
+	kniznica = nacitaj(kniznica, &n, &velkost);
+	oblubene = vytvorOblubene(kniznica, velkost, n, &velkost_oblubene, &poc_oblubene);
+	vypisOblubene(oblubene, poc_oblubene);
+	return 0;
+}
+
+
+// uloha8-3.c -- Adrián Vančo, 17.4.2020 12:38
+Uvažujte príklad z prednášky o spájanom zozname (program 06p03.cpp).
+
+Napíšte funkciu vratMeno(), ktorá dostane ukazovateľ na začiatok spájaného zoznamu a meno (reťazec najviac 30 znakov) a vráti ukazovateľ na prvý záznam s daným menom. Ak sa v zozname taký záznam nenachádza, vráti NULL.
+
+Hlavný program doplňte tak, aby po načítaní zoznamu načítal meno. Potom program zavolá funkciu vratMeno() a vypíše ročník z nájdeného záznamu. Inak vypíše správu zaznam nenajdeny (nasledovanú znakom konca riadku).
+
+Ukážkový vstup:
+
+3
+Janko 2
+Jozko 5
+Janko 6
+Janko
+Ukážkový výstup:
+
+2
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define N 30
+
+typedef struct clovek {
+  char meno[N];
+  int rocnik;
+  struct clovek *dalsi;
+} CLOVEK;
+
+CLOVEK *vratMeno(CLOVEK *zac, char meno[]) {
+  CLOVEK *akt = zac;
+   
+  while(akt != NULL) {
+    if(!strcmp(akt->meno, meno)) 
+      return akt;
+    akt = akt->dalsi;
+  }
+  return NULL;
+}
+
+CLOVEK *pridajNaKoniec(CLOVEK *zac, CLOVEK *vloz){
+  CLOVEK *akt = zac;
+   
+  if(zac == NULL) return vloz;
+  while(akt->dalsi != NULL) 
+    akt = akt->dalsi;
+  akt->dalsi = vloz;
+  return zac;
+}
+
+CLOVEK *zmazZoznam(CLOVEK *zac) {
+  CLOVEK *p;
+  while (zac != NULL) {
+    p = zac;
+    zac = zac->dalsi;
+    free(p);
+  }
+  return NULL;
+}
+
+
+int main() {
+  CLOVEK *zac = NULL, *vloz = NULL, *meno;
+  int i, n;
+  char nemo[30];
+  scanf("%d", &n);
+	
+  for(i=0; i<n; i++) {
+    vloz = (CLOVEK *) malloc(sizeof(CLOVEK));
+    scanf("%s", vloz->meno);
+    scanf("%d", &vloz->rocnik);
+    vloz->dalsi = NULL;
+    zac = pridajNaKoniec(zac, vloz);
+  }
+  scanf("%30s",nemo);
+  meno = vratMeno(zac,nemo);
+  if(meno == NULL)
+    printf("zaznam nenajdeny\n");
+  printf("%d\n",meno->rocnik);
+  zac = zmazZoznam(zac);
+  return 0;
+}
+
+
+// uloha9-1.c -- Adrián Vančo, 22.4.2020 16:43
+Uvažujte implementáciu spájaného zoznamu využitím štruktúry POLOZKA, začiatok zoznamu je v premennej prvy.
+
+Napíšte funkciu zmaz(prvy,k), ktorá odstráni k-tu položku zo zoznamu, ktorého začiatok je v premennej prvy. Pozíciu k počítame od 0, kedy odstránime prvú položku. Ak k je väčšie ale rovné ako aktuálny počet prvkov v zozname, funkcia zoznam nebude upravovať. Prázdny zoznam je reprezentovaný hodnotou NULL.
+
+Riešenie použite v programe, ktorý načíta zo vstupu hodnotu k a spájaný zoznam funkciou nacitaj(), odstráni k-tu položku, a vypíše výsledný zoznam funkciou vypis(). Funkcie nacitaj() a vypis() nemusíte implementovať.
+
+Ukážka zoznamu:
+6 -> 4 -> 2 -> 1
+Ukážka zoznamu po volaní zmaz(prvy,1):
+6 -> 2 -> 1
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Polozka
+{
+  int cislo;
+  struct Polozka *dalsi;
+} POLOZKA;
+
+POLOZKA *nacitaj();
+void vypis(POLOZKA *prvy);
+
+void zmaz(POLOZKA **prvy, int k)
+{
+  POLOZKA *pom=*prvy, *vymaz=NULL;
+  if ((*prvy)==NULL){
+  (*prvy)=NULL;
+  return;
+  }
+  else if(k==0){
+    if((*prvy)->dalsi!=NULL){
+      pom=(*prvy)->dalsi;
+      free(*prvy);
+      *prvy=pom;
+      return;
+    }
+    free(*prvy);
+    *prvy=NULL;
+    return;
+  } else{
+    //printf("k %d .\n",k);
+	  while (pom->dalsi != NULL && k!=0) {
+      vymaz = pom;
+      pom=pom->dalsi;
+		k--;
+	}
+  if(k==0){
+  vymaz->dalsi=pom->dalsi;
+  free(pom);
+  }
+  }	
+}
+
+int main()
+{
+  int k;
+  POLOZKA *prvy;
+  scanf("%d", &k);
+  prvy = nacitaj(); // nacitaj zoznam
+  //printf("%d",prvy->cislo);
+  zmaz(&prvy, k);
+  vypis(prvy); // vypis zoznam
+  return 0;
+}
+
+
+// uloha9-4.c -- Adrián Vančo, 23.4.2020 01:19
+Uvažujte spájaný zoznam záznamov typu PRVOK obsahujúcich celočíselnú položku hodnota a ukazovateľ na nasledujúci prvok zoznamu dalsi.
+
+Napíšte funkciu: PRVOK *vlozDoUsp(PRVOK *p_prv, int k), ktorá vytvorí záznam s hodnotou k a vloží ho do usporiadaného zoznamu tak, aby zoznam zostal usporiadaný.
+
+Funkciu použite v programe, ktorý načítava celé čísla (do konca vstupu), vkladá ich do spájaného zoznamu a po každom vložení vypíše v riadku obsah spájaného zoznamu. Hlavný program ani výpis nie je potrebné vytvoriť.
+
+Ukážka vstupu:
+3
+5
+7
+9
+1
+4
+Ukážka výstupu:
+3
+3 -> 5
+3 -> 5 -> 7
+3 -> 5 -> 7 -> 9
+1 -> 3 -> 5 -> 7 -> 9
+1 -> 3 -> 4 -> 5 -> 7 -> 9
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct prvok {
+    int hodnota;
+    struct prvok *dalsi;
+} PRVOK;
+
+PRVOK *vlozDoUsp(PRVOK *p_prv, int k) {
+	PRVOK *akt=p_prv,*vloz=NULL, *pom=akt;
+	vloz =(PRVOK*) malloc(sizeof(PRVOK));
+	if(p_prv==NULL){
+		//printf("x");
+		vloz->hodnota=k;
+		vloz->dalsi=NULL;
+		return vloz;
+	} 
+	else if(k < p_prv->hodnota){
+		vloz->hodnota=k;
+		vloz->dalsi=p_prv;
+		return vloz;
+	}
+	else {
+		//printf("totok\n");
+		
+		while(pom->dalsi != NULL && k > akt->hodnota){
+			//printf("\nk: %d hodnota akt: %d\n",k,akt->dalsi->hodnota);
+			pom=akt;
+			akt=akt->dalsi;
+			//printf("\npom %d\n",pom->hodnota);
+			//printf("x ");
+		}
+		//printf("x");printf("%d\n",akt->hodnota);
+
+		vloz->hodnota=k;
+		vloz->dalsi=pom->dalsi;
+		pom->dalsi=vloz;
+		return p_prv;
+	}
+
+}
+
+void vypis(PRVOK *zac) {
+	if (zac == NULL)
+		return;	
+	printf("%d", zac->hodnota);
+	zac = zac->dalsi;
+	while (zac != NULL) {
+		printf(" -> %d", zac->hodnota);	
+		zac = zac->dalsi;
+	}
+	printf("\n");
+}
+
+int main()
+{
+    int k;
+    PRVOK *p_prv = NULL;
+
+    while (scanf("%d", &k) == 1) {
+		//printf("cyklus\n\n");
+    	p_prv = vlozDoUsp(p_prv, k);
+		vypis(p_prv);
+	}
+	
+    return 0;
+}
+
+
+
+// uloha10-1.c -- Adrián Vančo, 7.5.2020 20:18
+Uvažujte obojsmerný spájaný zoznam záznamov typu CLOVEK, v ktorom sú záznamy usporiadané podľa mena:
+
+typedef struct clovek {
+  char meno[30];
+  int rocnik;
+  struct clovek *pred, *dalsi;
+} CLOVEK;
+Napíšte funkciu:
+
+int rovnakiSusedia(CLOVEK *zac)
+ktorá vráti počet záznamov, pre ktoré platí, že všetky ich susedné záznamy majú rovnakú hodnotu pre položku rocnik.
+
+Ak je zoznam jednoprvkový, záznam nemá žiadnych susedov – tento záznam sa započíta. Vo viacprvkových zoznamoch majú prvý a posledný prvok po jednom susedovi. Všetky ostatné záznamy majú dvoch susedov (ukazujú na nich ukazovatele pred a dalsi).
+
+Funkciu sa použije v programe, ktorý načíta záznamy do obojsmerného spájaného zoznamu usporiadaného podľa mena. Potom vypíše celé číslo, ktorá pre načítaný zoznam vráti funkcia rovnakiSusedia(). Hlavný program ani načítanie nie je potrebné vytvoriť.
+
+Ukážka vstupu:
+Anicka 3
+Janko 3
+Jozko 3
+Lucka 4
+Misko 4
+Peter 4 
+Zuzka 5
+Ukážka výstupu:
+3
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct clovek {
+    char meno[30];
+    int rocnik;
+    struct clovek *dalsi, *pred;
+} CLOVEK;
+
+int rovnakiSusedia(CLOVEK *akt) {
+   int i= 0;
+   if(akt==NULL) return 0;
+   if(akt->dalsi == NULL && akt->pred == NULL) return akt->rocnik;
+   CLOVEK* pom = akt;
+
+  do{
+     if(pom->pred == NULL && pom->dalsi!=NULL && pom->rocnik == pom->dalsi->rocnik) i++;
+     if(pom->pred != NULL && pom->dalsi == NULL && pom->rocnik == pom->pred->rocnik) i++;
+    if(pom->pred!=NULL && pom->dalsi!=NULL && pom->pred->rocnik == pom->dalsi->rocnik) i++;
+    pom = pom->dalsi;
+  }
+   while(pom != NULL);
+
+
+   return i;
+	// sem napis svoje riesenie
+}
+
+// vlozenie zaznamu 
+CLOVEK *vlozDoUsp(CLOVEK *zac, char meno[], int rocnik){
+   CLOVEK *vloz = (CLOVEK *) malloc(sizeof(CLOVEK));
+   strcpy(vloz->meno, meno);
+   vloz->rocnik = rocnik;
+   vloz->dalsi = vloz->pred = NULL;
+   
+   // prazdny zoznam: jedinym prvkom zoznamu sa stane vkladany prvok
+   if (zac == NULL) return vloz;
+   
+   // vkladanie na zaciatok zoznamu
+   if (strcmp(meno, zac->meno) < 0) {
+      vloz->dalsi = zac;
+      zac->pred = vloz;
+      return vloz;
+   }
+   
+   // vkladanie na 2. - poslednu poziciu
+   CLOVEK *akt = zac;
+   while (akt->dalsi != NULL && strcmp(meno, akt->dalsi->meno) > 0) {
+      akt = akt->dalsi;
+   }
+   vloz->dalsi = akt->dalsi;
+   akt->dalsi = vloz;
+   vloz->pred = akt;
+   if (vloz->dalsi != NULL) vloz->dalsi->pred = vloz; 
+   return zac; 
+}
+
+int main() {
+	
+	CLOVEK *akt = NULL;
+	int r;
+	char meno[100];
+
+	while (scanf("%s %d", meno, &r) == 2) {
+		akt = vlozDoUsp(akt, meno, r);
+
+	}
+	
+	printf("%d\n", rovnakiSusedia(akt));
+	return 0;
+}
+
+
+
+// uloha10-2.c -- Adrián Vančo, 9.5.2020 02:42
+Uvažujte obojsmerný spájaný zoznam záznamov typu CLOVEK:
+
+typedef struct clovek {
+  char meno[30];
+  int rocnik;
+  struct clovek *pred, *dalsi;
+} CLOVEK;
+Napíšte funkciu CLOVEK *otocZoznam(CLOVEK *zac), ktorá otočí obojsmerný zoznam tak, že začiatok bude ukazovať na pôvodný koniec zoznamu a otočia sa ukazovatele. Predchádzajúci prvok v zozname sa teda stane nasledovníkom prvku.
+
+Riešenie použite v programe, ktorý načíta zo vstupu obojsmerný spájaný zoznam, otočí ho a vypíše výsledný zoznam. Načítanie ani výpis nie je potrebné implementovať.
+
+Ukážka zoznamu:
+Anicka 3
+Janko 3
+Misko 4
+Ukážka vystupu:
+Misko 4
+Janko 3
+Anicka 3
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct clovek {
+    char meno[30];
+    int rocnik;
+    struct clovek *dalsi, *pred;
+} CLOVEK;
+
+// obrat zoznam
+CLOVEK *obratZoznam(CLOVEK *z) {
+  // sem napis svoje riesenie
+  CLOVEK * skrrr = z;
+  CLOVEK * pom;
+  while(z != NULL){
+     skrrr = z->pred;
+     z->pred = z->dalsi;
+     z->dalsi = skrrr;
+     if(z->pred == NULL) break; 
+     z = z->pred;
+  }
+  return z;
+}
+
+// vlozenie zaznamu 
+CLOVEK *vlozDoUsp(CLOVEK *zac, char meno[], int rocnik){
+   CLOVEK *vloz = (CLOVEK *) malloc(sizeof(CLOVEK));
+   strcpy(vloz->meno, meno);
+   vloz->rocnik = rocnik;
+   vloz->dalsi = vloz->pred = NULL;
+   
+   // prazdny zoznam: jedinym prvkom zoznamu sa stane vkladany prvok
+   if (zac == NULL) return vloz;
+   
+   // vkladanie na zaciatok zoznamu
+   if (strcmp(meno, zac->meno) < 0) {
+      vloz->dalsi = zac;
+      zac->pred = vloz;
+      return vloz;
+   }
+   
+   // vkladanie na 2. - poslednu poziciu
+   CLOVEK *akt = zac;
+   while (akt->dalsi != NULL && strcmp(meno, akt->dalsi->meno) > 0) {
+      akt = akt->dalsi;
+   }
+   vloz->dalsi = akt->dalsi;
+   akt->dalsi = vloz;
+   vloz->pred = akt;
+   if (vloz->dalsi != NULL) vloz->dalsi->pred = vloz; 
+   return zac; 
+}
+
+// vypis zoznamu
+void vypisZoznam(CLOVEK *zac) {	
+	if (zac == NULL) {
+		printf("Zoznam je prazdny.\n");
+		return;
+	}
+   	while(zac != NULL) {
+      	printf("%s %d\n", zac->meno, zac->rocnik);
+      	zac = zac->dalsi;
+  	}
+}
+
+int main() {
+	
+	CLOVEK *akt = NULL;
+	int r;
+	char meno[100];
+	
+	while (scanf("%s %d", meno, &r) == 2) {
+		akt = vlozDoUsp(akt, meno, r);
+	}
+	
+	akt = obratZoznam(akt);
+	vypisZoznam(akt);
+	return 0;
+}
+
+
+// uloha10-3.c -- Adrián Vančo, 10.5.2020 02:35
+Uvažujte implementáciu binárneho vyhľadávacieho stromu využitím štruktúry UZOL, koreň stromu je v premennej s.
+
+typedef struct uzol {
+    int hod;
+    struct uzol *lavy;
+    struct uzol *pravy;
+} UZOL;
+Napíšte funkciu void vypisInorder(UZOL *s), ktorá vypíše strom tak, že sa najprv vypíše v zátvorkách: ľavý podstrom, hodnotu a pravý podstrom. Prázdny podstrom (NULL) vypíšte pomlčkou.
+
+Riešenie použite v programe, ktorý načíta zo vstupu hodnoty do binárneho vyhľadávacieho stromu a následne vypíše obsah stromu pomocou funkcie vypisInorder(). Načítanie hodnôt do binárneho vyhľadávacieho stromu nie je potrebné implementovať.
+
+Ukážka vstupu:
+7 3 10 1 8 9 12
+Ukážka výstupu:
+(((- 1 -) 3 -) 7 ((- 8 (- 9 -)) 10 (- 12 -)))
+
+
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+typedef struct uzol {
+    int hod;
+    struct uzol *lavy;
+    struct uzol *pravy;
+} UZOL;
+
+// vypis stromu: inorder
+void vypisInorder(UZOL *s) {
+   if(s == NULL){
+      printf("-");
+   }
+   else {
+      printf("(");
+      vypisInorder(s->lavy);
+      printf(" %d ",s->hod);
+      vypisInorder(s->pravy);
+      printf(")");
+   }
+  // sem napis svoje riesenie
+}
+
+void pridajDoStromu(UZOL *s, int  k);
+UZOL *vytvorUzol(int k);
+
+int main(void) {
+   UZOL *koren;
+   int k;
+   
+   koren = NULL;
+   while (scanf("%d", &k) == 1) {
+      if (koren == NULL) koren = vytvorUzol(k);
+      else pridajDoStromu(koren, k);
+   }
+   vypisInorder(koren);
+   return 0;
+}
+
+// pridanie uzla s hodnotou k do stromu
+void pridajDoStromu(UZOL *s, int k) {
+   	if (k < s->hod) {
+   		if (s->lavy == NULL) 
+   			s->lavy = vytvorUzol(k);
+   		else pridajDoStromu(s->lavy, k);
+   	}
+    else if (k > s->hod) {
+   		if (s->pravy == NULL) 
+	      	s->pravy = vytvorUzol(k);
+   		else pridajDoStromu(s->pravy, k);    	
+	}
+}
+
+// vytvorenie uzla
+UZOL *vytvorUzol(int k) {
+   UZOL *u = (UZOL *) malloc(sizeof(UZOL));
+   u->hod = k;
+   u->lavy = u->pravy = NULL;
+   return u;
+}
+
+
+// uloha10-4.c -- Adrián Vančo, 10.5.2020 02:47
+Uvažujte implementáciu binárneho vyhľadávacieho stromu využitím štruktúry UZOL, koreň stromu je v premennej s.
+
+typedef struct uzol {
+    int hod;
+    struct uzol *lavy;
+    struct uzol *pravy;
+} UZOL;
+Napíšte funkciu int vratNajmensi(UZOL *s), ktorá vráti najmenšiu hodnotu, ktorá sa vyskytuje v binárnom vyhľadávacom strome. Predpokladajte, že do stromu sa zapisujú len kladné hodnoty. Pre prázdny strom vráti funkcia hodnotu 0.
+
+Riešenie použite v programe, ktorý načíta zo vstupu kladné celočíselné hodnoty do binárneho vyhľadávacieho stromu a následne vypíše hodnotu najmenšej zapísanej hodnoty zistenej funkciou vratNajmensi(). Načítanie hodnôt do binárneho vyhľadávacieho stromu nie je potrebné implementovať.
+
+Ukážka vstupu:
+7 3 10 1 8 9 12
+Ukážka výstupu:
+1
+
+
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+typedef struct uzol {
+    int hod;
+    struct uzol *lavy;
+    struct uzol *pravy;
+} UZOL;
+
+// vrati najmensiu hodnotu v strome
+int vratNajmensi(UZOL *s) {
+  // sem napis svoje riesenie
+  int i = 99999;
+  if(s == NULL) return 0;
+for(;;){
+   if(i > s->hod) i = s->hod;
+   if(s->lavy != NULL){
+    s = s->lavy;
+    }
+    else return i;
+}
+}
+
+void pridajDoStromu(UZOL *s, int  k);
+UZOL *vytvorUzol(int k);
+
+int main(void) {
+   UZOL *koren;
+   int k;
+   
+   koren = NULL;
+   while (scanf("%d", &k) == 1) {
+      if (koren == NULL) koren = vytvorUzol(k);
+      else pridajDoStromu(koren, k);
+   }
+   k = vratNajmensi(koren);
+   if (k == 0)
+   	printf("Prazdny strom\n");
+   else
+   	printf("Najmensia hodnota: %d\n", vratNajmensi(koren));
+   return 0;
+}
+
+// pridanie uzla s hodnotou k do stromu
+void pridajDoStromu(UZOL *s, int k) {
+   	if (k < s->hod) {
+   		if (s->lavy == NULL) 
+   			s->lavy = vytvorUzol(k);
+   		else pridajDoStromu(s->lavy, k);
+   	}
+    else if (k > s->hod) {
+   		if (s->pravy == NULL) 
+	      	s->pravy = vytvorUzol(k);
+   		else pridajDoStromu(s->pravy, k);    	
+	}
+}
+
+// vytvorenie uzla
+UZOL *vytvorUzol(int k) {
+   UZOL *u = (UZOL *) malloc(sizeof(UZOL));
+   u->hod = k;
+   u->lavy = u->pravy = NULL;
+   return u;
+}
+
+
+
+// uloha11-1.c -- Adrián Vančo, 10.5.2020 03:47
+Uvažujte spájaný zoznam záznamov typu CISLO:
+
+typedef struct cislo {
+  int hod;
+  struct cislo *dalsi;
+} CISLO;
+Napíšte funkciu int opakuju(CISLO *zoznam), ktorá vráti hodnotu 1, ak spájaný zoznam čísel obsahuje hodnotu, ktorá sa v zozname opakuje. Inak vráti hodnotu 0.
+
+Funkciu použite v programe, ktorý načíta záznamy do spájaného zoznamu čísel. Potom vypíše správu Opakovanie alebo Prvky sa neopakuju, podľa výsledku funkcie opakuju(). Hlavný program ani načítanie nie je potrebné vytvoriť.
+
+Ukážka vstupu:
+3 1 5 2 1 6 3
+Ukážka výstupu:
+Opakovanie
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct cislo {
+  int hod;
+  struct cislo *dalsi;
+} CISLO;
+
+int opakuju(CISLO *z) {
+  // sem napis svoje riesenie
+  	CISLO* akt = z, * akt2;
+	int opakuju = 0;
+	while (akt!=NULL) {
+				akt2 = z;
+			while (akt2 != NULL) {
+				if (akt != akt2 && akt->hod == akt2->hod) opakuju++;
+				akt2 = akt2->dalsi;
+			}
+
+		akt = akt->dalsi;
+	}
+	  
+	if (opakuju != 0) {
+	  	return 1;
+	}
+  	else {
+  		return 0;
+	}
+}
+
+CISLO *nacitaj() {
+	CISLO *z = NULL, *p;
+	int h;
+	while (scanf("%d", &h) == 1) {
+		if (z == NULL) {
+			z = (CISLO *) malloc(sizeof(CISLO));
+			p = z;
+		}
+		else {
+			p->dalsi = (CISLO *) malloc(sizeof(CISLO));
+			p = p->dalsi;
+		}	
+		p->hod = h;
+		p->dalsi = NULL;
+	}	
+	return z;
+}
+
+
+int main() {
+	CISLO *zoznam;
+	zoznam = nacitaj();
+	if (opakuju(zoznam)) 
+		printf("Opakovanie\n");
+	else 
+		printf("Prvky sa neopakuju\n");
+		
+	return 0;	
+}
+
+
+// uloha12-2.c -- Adrián Vančo, 10.5.2020 04:49
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct {
+  char meno[100];
+  double vyska, vaha;
+} PPRVOK;
+
+typedef struct SZprvok {
+  char meno[100];
+  double vyska, vaha;
+  struct SZprvok *dalsi;
+} SZPRVOK;
+
+SZPRVOK* vloz_to(SZPRVOK** zac, SZPRVOK* vloz){
+SZPRVOK* akt = *zac;
+if (*zac == NULL) return vloz;
+	while (akt->dalsi != NULL)
+		akt = akt->dalsi;
+	akt->dalsi = vloz;
+	return *zac;	
+
+}
+
+void nacitaj(PPRVOK **pole, SZPRVOK** zoznam,int*pocet){
+  SZPRVOK *vloz = NULL;
+  char meno[100];
+  while(scanf("%99s",meno) == 1){
+    vloz = (SZPRVOK*) malloc(sizeof(SZPRVOK));
+    strcpy(vloz->meno , meno);
+    scanf("%lf %lf", &vloz->vyska, &vloz->vaha);
+    vloz->dalsi = NULL;
+    if(vloz->vyska >=150) (*pocet)++;
+    *zoznam = vloz_to(zoznam,vloz);
+  }
+
+  (*pole) = (PPRVOK**)malloc((*pocet) * sizeof(PPRVOK*));
+  vloz = *zoznam;
+  int i=0;
+  while(vloz!=NULL){
+    if(vloz->vyska >= 150){
+      strcpy(pole[i]->meno , vloz->meno);
+      pole[i]->vyska = vloz->vyska;
+      pole[i]->vaha = vloz->vaha;
+      i++;
+    }
+    vloz = vloz->dalsi;
+  }
+}
+
+void vypis(PPRVOK *pole, SZPRVOK* zoznam,int pocet){
+  if(zoznam != NULL ) printf("Zoznam:\n");
+  while(zoznam != NULL){
+    printf("%s %.2lf %.2lf\n", zoznam->meno, zoznam->vyska, zoznam->vaha);
+    zoznam = zoznam->dalsi;
+  }
+   if(pocet > 0) {printf("Pole:\n");
+  for(int i = 0; i < pocet; i++){
+    printf("%s %.2lf %.2lf\n", pole[i].meno, pole[i].vyska, pole[i].vaha);
+  }
+  }
+}
+
+void uvolni(SZPRVOK *zoznam){
+  SZPRVOK* pom = NULL;
+	while (zoznam != NULL) {
+		pom = zoznam;
+		zoznam = zoznam->dalsi;
+		free(pom);
+	}
+}
+
+int main()
+{
+  int n=0;
+  SZPRVOK *zoznam = NULL;
+  PPRVOK *pole;
+  // sem napis svoje riesenie
+  nacitaj(&pole, &zoznam, &n);
+  vypis(pole, zoznam, n);
+  uvolni(zoznam);
+  return 0;
+}

@@ -1,0 +1,200 @@
+3/3
+Napíšte program, ktorı naèíta 2 celé èísla, vyhodnotí pravdivos logickıch vırazov pre naèítané èísla a vypíše príslušné správy s ich pravdivostnımi hodnotami. Logické vırazy testujú, èi (1) prvé èíslo je delite¾né èíslom 11, (2) druhé èíslo nie je delite¾né èíslom 5, (3) obe èísla sú kladné 4-ciferné, (4) aspoò jedno z èísel je záporné a (5) ani jedno z èísel nie je 0. Správy vypíšte pod¾a ukákového vıstupu, èíslo na konci vyjadruje pravdivostnú hodnotu správy, 1 pre TRUE, 0 pre FALSE.
+
+Ukáka vstupu:
+2564 16
+Vıstup pre ukákovı vstup:
+Prve cislo je delitelne cislom 11: 0
+Druhe cislo nie je delitelne cislom 5: 1
+Obe cisla su kladne 4-ciferne: 0
+Aspon jedno z cisel je zaporne: 1
+Ani jedno z cisel nie je 0: 1
+
+#include <stdio.h>
+
+int main()
+{
+  int a, b;
+	scanf("%d %d", &a, &b);
+
+	printf("Prve cislo je delitelne cislom 11: ");
+	if (a % 11 == 0) printf("1");
+	else printf("0");
+
+	printf("\nDruhe cislo nie je delitelne cislom 5: ");
+	if (b % 5 != 0) printf("1");
+	else printf("0");
+
+	printf("\nObe cisla su kladne 4-ciferne: ");
+	if ( (a >= 1000 && a <= 9999) && (b >= 1000 && b <= 9999) ) printf("1");
+	else printf("0");
+
+	printf("\nAspon jedno z cisel je zaporne: ");
+	if (a < 0 || b < 0) printf("1");
+	else printf("0");
+
+	printf("\nAni jedno z cisel nie je 0: ");
+	if (a != 0 && b != 0) printf("1");
+	else printf("0");
+	return 0;
+}
+
+3/4
+Napíšte program, ktorı naèíta znak, vyhodnotí logické vırazy, ktoré testujú, èi naèítanı znak je alebo nie je alfanumerickı znak a vypíšu správu s jej pravdivostnou hodnotou. Alfanumerickı znak je písmeno (malé alebo ve¾ké) alebo èíslica. Cie¾om úlohy je precvièi si tvorbu logickıch podmienok, preto v logickıch vırazoch nepouite ani jeden operátor negácie ani if-else konštrukciu.
+
+Pomôcka: pri negovaní zloeného vırazu dajte pozor na priority logickıch operátorov, môe by potrebné poui zátvorky. Správy vypíšte pod¾a ukákového vıstupu, èíslo na konci vyjadruje pravdivostnú hodnotu správy, 1 pre TRUE, 0 pre FALSE.
+
+Ukáka vstupu:
+#
+Vıstup pre ukákovı vstup:
+# je alfanumericky znak: 0
+# nie je alfanumericky znak: 1
+
+#include <stdio.h>
+
+int main()
+{
+int a;
+
+	a = getchar();
+
+ printf("%c je alfanumericky znak: %d\n",a, ((a >= '0' && a <= '9') || (a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z')));
+ printf("%c nie je alfanumericky znak: %d\n", a, ((a < '0') || (a > '9' && a < 'A') || (a > 'Z' && a < 'a') || (a > 'z')));
+	return 0;
+}
+
+3/5
+Napíšte program, ktorı skontroluje, èi 3 zadané uhly v stupòoch môu by uhlami trojuholníka. Pre trojuholník platí, e súèet uhlov je 180°, prièom všetky uhly musia by kladné. Vstup programu sú 3 celé èísla a b c. Vıstupom je správa Platny trojuholnik ak uhly a, b, c môu predstavova uhly platného trojuholníka, v opaènom prípade program vypíše správu Neplatny trojuholnik. Správa je ukonèená znakom konca riadku.
+
+Pomôcka: pri negovaní zloeného vırazu dajte pozor na priority logickıch operátorov, môe by potrebné poui zátvorky. Správy vypíšte pod¾a ukákového vıstupu, èíslo na konci vyjadruje pravdivostnú hodnotu správy, 1 pre TRUE, 0 pre FALSE.
+
+Ukáka vstupu:
+60 60 60
+Vıstup pre ukákovı vstup:
+Platny trojuholnik
+
+#include <stdio.h>
+
+int main()
+{
+	int a, b, c;
+	scanf("%d %d %d", &a, &b, &c);
+	if ((a > 0) && (b > 0) && (c > 0)&&((a + b + c) == 180)) {
+		printf( "Platny trojuholnik\n");
+	}else{
+		printf("Neplatny trojuholnik\n");
+	}
+	return 0;
+}
+
+
+3/6Napíšte program, ktorı naèíta 2 celé èísla, vyhodnotí pravdivos logickıch vırazov pre naèítané èísla a vypíše správy len pre vırazy, ktoré sú pravdivé a v danom poradí:
+
+Ak je prvé èíslo je delite¾né èíslom 11, vypíše sa správa Prve cislo je delitelne cislom 11
+Ak je druhé èíslo nie je delite¾né èíslom 5, Druhe cislo nie je delitelne cislom 5
+Ak sú obe èísla sú kladné 4-ciferné, vypíše sa Obe cisla su kladne 4-ciferne
+Ak je aspoò jedno z èísel je záporné, vypíše sa správa Aspon jedno z cisel je zaporne
+Ak ani jedno z èísel nie je 0, vypíše sa správa Ani jedno z cisel nie je 0
+Správy sú ukonèené znakom konca riadku.
+
+Ukáka vstupu:
+2564 16
+Vıstup pre ukákovı vstup:
+Druhe cislo nie je delitelne cislom 5
+Aspon jedno z cisel je zaporne
+Ani jedno z cisel nie je 0
+
+
+#include <stdio.h>
+
+int main()
+{
+  int a, b;
+	scanf("%d %d", &a, &b);
+
+	if (a % 11 == 0) printf("Prve cislo je delitelne cislom 11\n");
+	
+	if (b % 5) printf("Druhe cislo nie je delitelne cislom 5\n");
+
+	if ( (a >= 1000 && a <= 9999) && (b >= 1000 && b <= 9999) ) printf("Obe cisla su kladne 4-ciferne\n");
+
+	if (a < 0 || b < 0) printf("Aspon jedno z cisel je zaporne\n");
+
+	if (a != 0 && b != 0)	printf("Ani jedno z cisel nie je 0\n");
+	return 0;
+
+  return 0;
+}
+
+3/7
+Napíšte program na prevod stupòov Fahrenheita na stupne Celzia pod¾a vzorca:
+
+c = (f - 32) * 5/9
+Vypíšte prevedenú hodnotu s presnosou na 2 desatinné miesta. V prípade, e vısledná teplota je pod bodom mrazu, okrem vıslednej teploty vypíšte správu: Mrzne, v prípade teploty od 100 stupòov vypíšte správu: Vrie.
+
+Ukáka vstupu:
+-58
+Vıstup pre ukákovı vstup:
+50
+Mrzne
+
+#include <stdio.h>
+
+int main(int argc, const char * argv[]) {
+    
+    float c,f;
+    
+    scanf("%f", &f);
+    
+    c = (f - 32) * 5/9;
+    
+    printf("%.2f\n", c);
+    
+    if (c < 0) {
+        printf("Mrzne\n");
+    } else if (c > 99) {
+        printf("Vrie\n");
+    }
+    
+    return 0;
+}
+
+3/8
+Napíšte program, ktorı naèíta tri celé èísla a vypíše najmenšie z nich. Vıstupom je jeden riadok obsahujúci správu Najmensie cislo z c1 c2 c3 je: min nasledovanı znakom konca riadku. Èísla c1 c2 c3 sú naèítané èísla, min je najmenšie z nich.
+
+Ukáka vstupu:
+7 2 9
+Vıstup pre ukákovı vstup:
+Najmensie cislo z 7 2 9 je: 2
+
+#include <stdio.h>
+
+int main()
+{
+  int c1,c2,c3,min;
+  scanf("%d %d %d",&c1,&c2,&c3);
+if(c1<c2)min=c1;
+else min=c2;
+if(min > c3) min=c3;
+  printf("Najmensie cislo z %d %d %d je: %d",c1,c2,c3,min);
+
+  return 0;
+}
+
+3/9
+Napíšte program na vıpoèet BMI so zatriedením do kategórie pod¾a nasledujúcich pravidiel:
+
+BMI	kategória
+<= 18.5	Podváha
+(18.5, 25)	Normálna hmotnos
+<25, 30)	Nadváha
+> 30	Obezita
+Na vstupe naèítajte 2 reálne èísla predstavujúce vıšku a hmotnos oddelené jednou medzerou a nasledované znakom konca riadku. Vıstupom sú 2 riadky. Prvı riadok obsahuje správu BMI: nasledovanú vypoèítanou hodnotou body mass index zaokrúhlenou na tri desatinné miesta a znakom konca riadku. Druhı riadok obsahuje vıslednú kategóriu (bez diakritiky) nasledovanú znakom konca riadku.
+
+Ukáka vstupu:
+170 58
+Vıstup pre ukákovı vstup:
+BMI: 20.069
+Normalna hmotnost
+
+

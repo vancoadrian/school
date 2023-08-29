@@ -1,0 +1,41 @@
+\usepackage{enumitem}	%Na zoznamy. 
+
+\usepackage{algpseudocode}	%Rozloženie (layout) pre algoritmus.
+\usepackage{amsmath}	%Balík pre tvorbu vzorcov.
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}	%Balík pre tvorbu algoritmov.
+\SetCommentSty{mycommfont}	%Vzhľad komentárov v algoritme.
+
+\usepackage{fancyhdr}	%Balík pre Hlavičku. 
+\renewcommand{\headrulewidth}{0pt}	%Odstranenie podčiarknutia z hlavičky.
+\pagestyle{fancy}	%Štýl hlavičky. Práve tento štýl splňal vzhľad hlavičky.
+
+\usepackage[labelfont=bf]{subfig}	%Pre podobrázky a nastavenie tučného fontu pre podobrazky.
+\usepackage[labelfont=bf]{caption}	%Tučný font pre nazvy obrazkov
+\usepackage{graphicx}	%Balík pre tvorbu Obrázkov.
+\usepackage{float}	%Plavajuce objekty.(obrazky a tabulky).
+
+
+\usepackage[square,numbers]{natbib}	%Balík pre bibliografiu.
+\bibliographystyle{abbrv}	%Štýl bibliografie.
+\setlength{\bibsep}{0.0pt}	%Odstranenie medzier medzi odsekami bibliografie.
+\renewcommand*{\bibfont}{\scriptsize}	%Zmenšenie veľkosti textu bibliografie, aby sa mi tiež zmestili referencie aj keď ich stačilo mať 5.
+\usepackage{hyperref}	%Na cross referencie. Aby sa v texte dalo z citácie preskočiť na odpovedajúcu referenciu.
+
+\makeatletter
+\def\@copyrightspace{\relax}	%Odstránenie ACM ISBN a DOI z prvej strany, kedže sme ho tam nemuseli mať a pekne mi to pomohlo zmestiť text na prvú stranu.
+\makeatother
+
+
+
+
+Zoznam funkcií:
+• Formátovanie textu
+• Použitie zoznamov
+• Vkladanie obrázkov
+• Tvorba vzorcov
+• Tvorba algoritmu
+• Bibliografia a citovanie
+• krížové odkazy
+• Sádzanie špeciálnych znakov
+• Číslovanie strán
+• Vytvorenie hlavičky
