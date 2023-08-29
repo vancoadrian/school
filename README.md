@@ -58,3 +58,12 @@ UI - Umela inteligencia
 
 DSA - Datove struktury a algoritmy
 - C
+
+## 3 semester
+
+ZOOP - Základy objektovo-orientovaného programovania
+- UML
+- Java
+
+PPI - Princípy počítačového inžinierstva
+- Logické obvody
